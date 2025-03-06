@@ -1,10 +1,20 @@
+import * as React from 'react';
 import BackgroundVideo from '../components/BackgroundVideo';
-import NarBar from '../components/NavBar';
+import NavBar from '../components/NavBar';
+import SideBar from '../components/SideBar';
 
 function App() {
+
+  const [open, setOpen] = React.useState(false);
+
+  // const toggleDrawer = (newOpen) => () => {
+  //   setOpen(newOpen);
+  // };
+
   return (
     <div className="App">
-      <NarBar />
+      <NavBar toggleDrawer={() => setOpen(true) } />
+      <SideBar open={open} onClose={() => setOpen(false)} />
       <BackgroundVideo />
     </div>
   );
