@@ -1,5 +1,5 @@
 import React from 'react';
-import videoFile from '../public/Crafted-background-vid.mp4'; // Adjust the path
+import videoFile from '../src/Crafted-background-vid.mp4'; // Adjust the path
 import '../src/backgroundVideo.css';
 
 const BackgroundVideo = () => {
