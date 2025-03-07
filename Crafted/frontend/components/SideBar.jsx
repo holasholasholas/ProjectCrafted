@@ -9,36 +9,39 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function SideBar({open, onClose}) {
+ 
+  const navItems = [
+    // { text: 'Home', icon: <HomeIcon />, path: '/' },
+    { text: 'Login', icon: <MailIcon />, path: '/sign-up'}
+  ];
+ 
+  const navigate = useNavigate();
   
+  const handleNavigation = (path) => {
+    navigate(path);
+    onClose();
+  }
+
   const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation">
+    <Box sx={{ width: 230 }} role="presentation">
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton onClick={onClose}>
+        {navItems.map((item) => (
+          <ListItem key={item. text} disablePadding>
+            <ListItemButton onClick={() => handleNavigation(item.path)}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              {item.icon}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
       <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton onClick={onClose}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+     
     </Box>
   );
 

@@ -3,10 +3,16 @@ import { Button } from '../tailframes/react-components/components/button';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import MenuIcon from '@mui/icons-material/Menu';
 import logo from '../src/assets/logo.png';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function NavBar({ toggleDrawer } ) {
-
+  const navigate = useNavigate();
+  
+  const handleNavigation = () => {
+    navigate('/');
+  }
+  
     console.log(logo)
   return (
     <div className="max-w-screen-2xl m-auto w-full px-3 sm:px-8 lg:px-16 xl:px-32 flex items-center justify-between py-4 relative z-10 bg-[#212121] h-16">
@@ -28,7 +34,7 @@ export default function NavBar({ toggleDrawer } ) {
        {/* Crafted */}
       </div>
       <div className="hidden md:flex md:justify-end lg:flex-1">
-        <Button endAdornment={<WhatshotIcon className="size-6 stroke-white" />} className="hidden md:inline-flex">
+        <Button endAdornment={<WhatshotIcon className="size-6 stroke-white" />} className="hidden md:inline-flex" onClick={handleNavigation}>
           Explore
         </Button>
       </div>
