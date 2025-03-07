@@ -1,4 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
 const LoginComponent = () => {
+
+const navigate = useNavigate();
+
+const handleNavigation = (e) => {
+  e.preventDefault();
+  navigate('/sign-up');
+}
 
   return (
     <div class="min-h-screen bg-gray-100 flex items-center justify-center p-4">
@@ -32,14 +41,14 @@ const LoginComponent = () => {
         <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500">Forgot password?</a>
       </div>
 
-      <button class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors">
+      <button class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors" >
         Sign In
       </button>
     </form>
 
     <div class="mt-6 text-center text-sm text-gray-600">
       Don't have an account? 
-      <a href="#" class="text-indigo-600 hover:text-indigo-500 font-medium">Sign up</a>
+      <a href="#" class="text-indigo-600 hover:text-indigo-500 font-medium" onClick={handleNavigation}>Sign up</a>
     </div>
   </div>
 </div>

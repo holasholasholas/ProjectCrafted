@@ -4,6 +4,7 @@ import BackgroundVideo from '../components/BackgroundVideo';
 import NavBar from '../components/NavBar';
 import SideBar from '../components/SideBar';
 import LoginPage from '../pages/LoginPage';
+import SignUpPage from '../pages/SignUpPage';
 
 function App() {
 
@@ -24,8 +25,8 @@ function App() {
         
         {/* <Route path="/" element={<Home />} /> */}
 
-        <Route path="/sign-up" element={<LoginPage />} />
-        <Route path="/test1" />
+        <Route path="/sign-in" element={<LoginPage />} />
+        <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/test2" />
         <Route path="/test3" />
 
