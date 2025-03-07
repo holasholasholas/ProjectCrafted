@@ -17,7 +17,7 @@ export default function SideBar({open, onClose}) {
   const navItems = [
     // { text: 'Home', icon: <HomeIcon />, path: '/' },
     { text: 'Login', icon: <MailIcon />, path: '/sign-in'},
-    { text: 'test1', path:'/test-1'},
+    { text: 'User Panel', path:'/userpanel'},
     { text: 'test2', path:'/test-2'},
     { text: 'test3', path:'/test-3'}
   ];

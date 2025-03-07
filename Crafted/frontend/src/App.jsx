@@ -5,6 +5,7 @@ import NavBar from '../components/NavBar';
 import SideBar from '../components/SideBar';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
+import UserPanelPage from '../pages/UserPanelPage';
 
 function App() {
 
@@ -27,7 +28,7 @@ function App() {
 
         <Route path="/sign-in" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
-        <Route path="/test2" />
+        <Route path="/userpanel" element ={<UserPanelPage />} /> 
         <Route path="/test3" />
 
       </Routes>
