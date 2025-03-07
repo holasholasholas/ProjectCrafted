@@ -15,6 +15,7 @@ export default function NavBar({ toggleDrawer } ) {
   
     console.log(logo)
   return (
+    <div className="sticky top-0 z-50"> 
     <div className="max-w-screen-2xl m-auto w-full px-3 sm:px-8 lg:px-16 xl:px-32 flex items-center justify-between py-4 relative z-10 bg-[#212121] h-16">
       <div className="flex items-center justify-start gap-2 min-[375px]:gap-4 lg:flex-1">
         <Button variant="text" size="xsmall" iconOnly aria-label="Menu" onClick={toggleDrawer}>
@@ -37,6 +38,7 @@ export default function NavBar({ toggleDrawer } ) {
         <Button endAdornment={<WhatshotIcon className="size-6 stroke-white" />} className="hidden md:inline-flex" onClick={handleNavigation}>
           Explore
         </Button>
+      </div>
       </div>
     </div>
   );
