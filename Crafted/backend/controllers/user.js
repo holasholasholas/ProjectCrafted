@@ -7,8 +7,11 @@ const bcrypt = require('bcrypt');
 //register user 
 
 const registerUser = async (req, res) => {
+    console.log('Register endpoint hit with data:', req.body);
     try {
         const { name, username, email, password } = req.body;
+
+        console.log("Request Body:", req.body);
 
         // check if username or email already exists
         //https://www.mongodb.com/docs/manual/reference/operator/query/or/
@@ -48,6 +51,7 @@ if (user) {
 
 
 } catch (err) {
+    console.error('Error in registerUser:', err);
   res.status(500).json({ err: err.message });
     }
 }
@@ -76,4 +80,9 @@ const loginUser = async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
+};
+
+module.exports = {
+    registerUser,
+    loginUser
 };

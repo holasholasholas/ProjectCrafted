@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
+
 
 const SignUpComponent = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         fullname: '',
+        username: '',
         email: '',
         password: '',
         confirm_password: ''
@@ -16,8 +19,7 @@ const SignUpComponent = () => {
 
     const handleChange = (e) => {
         setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
+            ...formData, [e.target.name]: e.target.value
         });
     };
 
@@ -58,7 +60,8 @@ const SignUpComponent = () => {
 
         try {
             const response = await axios.post('http://localhost:5000/api/auth/register', {
-                username: formData.fullname,
+                name: formData.fullname,
+                username: formData.username,
                 email: formData.email,
                 password: formData.password
             });
@@ -92,6 +95,15 @@ const SignUpComponent = () => {
                             name="fullname"
                             placeholder="Full Name"
                             value={formData.fullname}
+                            onChange={handleChange}
+                        />
+
+                        <input
+                            type="text"
+                            className="block border border-grey-light w-full p-3 rounded mb-4"
+                            name="username"
+                            placeholder="Username"
+                            value={formData.username}
                             onChange={handleChange}
                         />
 

@@ -27,25 +27,5 @@ const userSchema = new mongoose.Schema({
     vehicle: { type: mongoose.Schema.Types.ObjectId, ref: 'Vehicle'  },
   
 });
-// // encrypt pw
-// UserSchema.pre('save', async function(next) {
-//   // https://mongoosejs.com/docs/api/document.html#Document.prototype.$isModified()
-//   if (!this.isModified('password')) {
-//     return next();
-//   }
-  
-//   try {
-//     const salt = await bcrypt.genSalt(10);
-//     this.password = await bcrypt.hash(this.password, salt);
-//     next();
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
-// // check pw
-// UserSchema.methods.matchPassword = async function(enteredPassword) {
-//   return await bcrypt.compare(enteredPassword, this.password);
-// };
 
 module.exports = mongoose.model('User', userSchema); 
