@@ -23,8 +23,12 @@ const userSchema = new mongoose.Schema({
       type: Date,
       default: Date.now
     },
+    // groups: [{
+    //   group: { type: mongoose.Schema.Types.ObjectId, ref: 'Group' },
+    //   role: { type: String, enum: ['member', 'owner'], default: 'member' }
+    // }],
  
-    vehicle: { type: mongoose.Schema.Types.ObjectId, ref: 'Vehicle'  },
+    vehicle: { type: mongoose.Schema.Types.ObjectId, ref: 'Vehicle'  }
   
 });
 

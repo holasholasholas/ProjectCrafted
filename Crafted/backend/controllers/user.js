@@ -60,7 +60,7 @@ if (user) {
 
 const loginUser = async (req, res) => {
     try {
-        const user = await User.findOne({ username: req.body.username });
+        const user = await User.findOne({ email: req.body.email });
         if (!user) {
             return res.status(401).json({ error: 'Invalid credentials.' });
         }
@@ -73,7 +73,7 @@ const loginUser = async (req, res) => {
             return res.status(401).json({ error: 'Invalid credentials.' });
         }
 
-        const payload = { username: user.username, _id: user._id };
+        const payload = { email: user.email, _id: user._id };
         const token = jwt.sign({ payload }, process.env.JWT_SECRET);
 
         res.status(200).json({ token });

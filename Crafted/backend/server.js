@@ -11,7 +11,10 @@ dotenv.config();
 const app = express();
 
 // middleware 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', // Your frontend URL
+    credentials: true // This allows cookies and authentication headers
+  }));
 app.use(express.json());
 
 console.log("MongoDB URI:", process.env.MONGODB_URI); 
