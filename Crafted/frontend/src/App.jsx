@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
@@ -20,7 +21,7 @@ import { UserProvider } from './context/userContext';
 import ProtectedRoute from '../components/routing/ProtectedRoute'; 
 
 function App() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <UserProvider>
@@ -38,13 +39,16 @@ function App() {
             <Route path="/sign-up" element={<SignUpPage />} />
             
             {/* Protected route */}
-            <Route path="/userpanel" element={
-              <ProtectedRoute>
-                <UserPanelPage />
-              </ProtectedRoute>
-            } />
+            <Route 
+              path="/userpanel" 
+              element={
+                <ProtectedRoute>
+                  <UserPanelPage />
+                </ProtectedRoute>
+              } 
+            />
             
-            <Route path="/test3" />
+            <Route path="/test3" element={<div>Test 3 Page</div>} />
           </Routes>
         </div>
       </BrowserRouter>

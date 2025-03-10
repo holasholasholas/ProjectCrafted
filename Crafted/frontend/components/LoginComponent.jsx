@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from "react";
 import { toast } from 'react-toastify';
 import { UserContext } from "../src/context/userContext";
 
+
 const LoginComponent = () => {
 
 const { login, isAuthenticated, error } = useContext(UserContext);
@@ -20,7 +21,9 @@ const [loading, setLoading] = useState(false);
 
   // redirect after login
   useEffect(() => {
+    console.log('isAuthenticated:', isAuthenticated);
     if (isAuthenticated) {
+      console.log('Navigating to /userpanel');
       navigate('/userpanel');
     }
   }, [isAuthenticated, navigate]);
@@ -33,6 +36,7 @@ useEffect(() => {
 }, [error]);
 
 const handleSignUpNavigation = (e) => {
+  e.preventDefault();
   navigate('/sign-up')
 }
 
@@ -87,7 +91,7 @@ const onSubmit = async (e) => {
         <a href="#" className="text-sm text-indigo-600 hover:text-indigo-500">Forgot password?</a>
       </div>
 
-      <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors" >
+      <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors" >
         Sign In
       </button>
     </form>

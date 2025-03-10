@@ -9,18 +9,30 @@ import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:5000'
 const UserContext = createContext();
 
+
 const getUserFromToken = () => {
-    const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
 
-    if (!token) return null;
+  if (!token) return null;
 
-    try {
-        return JSON.parse(atob(token.split('.')[1])).user;
-    } catch (error) {
-        console.error('Invalid token format', error);
-        localStorage.removeItem('token');
-        return null;
-    }
+  try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      console.log('Full token payload:', payload);
+      
+      // Check if user data is in payload.user or directly in payload
+      if (payload.user) {
+          return payload.user;
+      } else if (payload.payload) {
+          return payload.payload;
+      } else {
+          // If no clear user object, return the whole payload
+          return payload;
+      }
+  } catch (error) {
+      console.error('Invalid token format', error);
+      localStorage.removeItem('token');
+      return null;
+  }
 };
   
 const setAuthToken = (token) => {
@@ -46,16 +58,20 @@ function UserProvider({ children }) {
     const login = async (email, password) => {
         setLoading(true);
         setError(null);
-      
-        try {
-            console.log('Attempting login with:', { email, password });
-            const res = await axios.post('/api/auth/login', { email, password });
-            console.log('Login response:', res.data);
-            const { token } = res.data;
         
-            // Save token and update user state
-            localStorage.setItem('token', token);
-            setUser(getUserFromToken());
+     
+        
+        try {
+          console.log('Attempting login with:', { email, password });
+          const res = await axios.post('/api/auth/login', { email, password });
+          console.log('Login response:', res.data);
+          const { token } = res.data;
+          
+          // Save token and update user state
+          localStorage.setItem('token', token);
+          setUser(getUserFromToken());
+          
+          
             return true;
         } catch (err) {
             console.error('Login error:', err);

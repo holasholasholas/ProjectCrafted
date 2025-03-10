@@ -12,6 +12,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import { useNavigate } from 'react-router-dom';
 
 
+
 export default function SideBar({open, onClose}) {
  
   const navItems = [
@@ -21,14 +22,14 @@ export default function SideBar({open, onClose}) {
     { text: 'test2', path:'/test-2'},
     { text: 'test3', path:'/test-3'}
   ];
- 
+  
   const navigate = useNavigate();
   
   const handleNavigation = (path) => {
     navigate(path);
     onClose();
   }
-
+  
   const DrawerList = (
     <Box sx={{ width: 230 }} role="presentation">
       <List>

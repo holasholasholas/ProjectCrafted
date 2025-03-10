@@ -1,6 +1,21 @@
-import React from "react";
+import {React , useContext} from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../src/context/userContext";
 
 const UserPanel = () => {
+
+const logout = useContext(UserContext)
+
+const navigate = useNavigate();
+
+const handleNavigate = (route) => {
+  navigate(route);
+};
+const handleLogOut = () => {
+  logout();
+  
+}
+
   return (
     <div className="font-poppins antialiased">
         <div className="sticky left-0 z-50"> 
@@ -39,15 +54,16 @@ const UserPanel = () => {
             {/* Menu Items */}
             <div id="menu" className="flex flex-col space-y-2">
               {[
-                { icon: "dashboard", text: "Dashboard" },
-                { icon: "garage", text: "Garage" },
-                { icon: "friends", text: "Friends" },
-                { icon: "logout", text: "Logout" }
+                { icon: "dashboard", text: "Dashboard", route: "/userpanel" },
+                { icon: "garage", text: "Garage", route: "/garage" },
+                { icon: "friends", text: "Friends", route: "/friends" },
+                { icon: "logout", text: "Logout", route: "/", onClick: {handleLogOut}}
                
               ].map((item, index) => (
                 <a
                   key={index}
-                  href="#"
+                  onClick={() => handleNavigate(item.route)}
+                  href={item.route}
                   className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
                 >
                   <svg
