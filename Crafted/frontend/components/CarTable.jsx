@@ -15,20 +15,31 @@ const CarTable = () => {
   const fetchVehicles = async () => {
     try {
       setLoading(true);
+
+      const token = localStorage.getItem('token');
+      
       const response = await axios.get('/api/garage', {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${token}`
         }
       });
+      
+      
       setVehicles(response.data.vehicles);
       setError(null);
     } catch (err) {
-      setError('Failed to load your garage. Please try again.');
-      console.error('Error fetching vehicles:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+        if (err.response && err.response.status === 401) {
+          setError('Your session has expired. Please log in again.');
+          // Optionally redirect to login page or clear invalid token
+        //   localStorage.removeItem('token');
+        } else {
+          setError('Failed to load your garage. Please try again.');
+        }
+        console.error('Error fetching vehicles:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
   useEffect(() => {
     fetchVehicles();

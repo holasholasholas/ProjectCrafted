@@ -55,15 +55,17 @@ function UserProvider({ children }) {
     }, [user]);
   
     // Login function
-    const login = async (email, password) => {
+    const login = async (formData) => {
         setLoading(true);
         setError(null);
-        
+     
+        const email = formData.email;
+        const password = formData.password;
      
         
         try {
-          console.log('Attempting login with:', { email, password });
-          const res = await axios.post('/api/auth/login', { email, password });
+          console.log('Attempting login with:',  email, password );
+          const res = await axios.post('/api/login', { email: email, password: password });
           console.log('Login response:', res.data);
           const { token } = res.data;
           
@@ -84,7 +86,7 @@ function UserProvider({ children }) {
   
     // Logout function
     const logout = () => {
-        localStorage.removeItem('token');
+        localStorage.clear();
         setUser(null);
         setAuthToken(null);
     };

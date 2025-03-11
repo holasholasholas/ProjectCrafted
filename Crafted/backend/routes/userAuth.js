@@ -2,11 +2,13 @@ const express =  require('express');
 const router = express.Router();
 const vehicleController = require('../controllers/cars.js');
 
+
 const jwt = require('jsonwebtoken');
 const { registerUser, loginUser } = require('../controllers/user');
 
+
 // login/sign-up routes
-router.post('/register', registerUser);
+router.post('/sign-up', registerUser);
 router.post('/login', loginUser)
 
 // garage routes

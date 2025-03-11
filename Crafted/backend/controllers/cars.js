@@ -1,9 +1,22 @@
-const Vehicle = require('../models/Vehicle');
-const User = require('../models/User');
+const Vehicle = require('../models/vehicleSchema');
+const User = require('../models/userSchema');
+const jwt = require("jsonwebtoken");
 
 // Get all vehicles for logged in user
 const getGarage = async (req, res) => {
   try {
+
+    const token = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded.payload;
+    
+    if (!req.user) {
+        return res.status(401).json({ 
+          message: 'Error fetching garage', 
+          error: 'Authentication required' 
+        });
+      }
+
     const userId = req.user.id;
 
     // Find user and populate vehicles
@@ -22,15 +35,19 @@ const getGarage = async (req, res) => {
 // Add a new vehicle
 const addVehicle = async (req, res) => {
   try {
+
+    const token = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded.payload;
     const userId = req.user.id;
     const { make, model, yearOfManufacture } = req.body;
 
     // Create new vehicle
-    const newVehicle = new Vehicle({
-      owner: userId,
-      make,
-      model,
-      yearOfManufacture
+    const newVehicle = await Vehicle.create({
+    //   owner: userId,
+      make: make,
+      model: model,
+      yearOfManufacture: yearOfManufacture
       // Modifications will use the default values
     });
 

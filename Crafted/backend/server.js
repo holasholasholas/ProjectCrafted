@@ -23,8 +23,7 @@ mongoose.connect(process.env.MONGODB_URI)
 .catch(err => console.error('MongoDB connection error:', err));
 
 //routes
-app.use('/api/auth', authRoutes);
-app.use('/api/users', require('./routes/userAuth'));
+app.use('/api', authRoutes); 
 
 
 // Start server

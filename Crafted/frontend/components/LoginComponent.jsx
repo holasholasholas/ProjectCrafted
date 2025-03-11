@@ -47,9 +47,10 @@ const onChange = (e) => {
 const onSubmit = async (e) => {
   e.preventDefault();
   setLoading(true);
+  console.log(formData)
   
   try {
-    await login(email, password);
+    await login(formData);
     toast.success('Login successful');
   } catch (error) {
     console.error(error);

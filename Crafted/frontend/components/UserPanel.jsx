@@ -1,20 +1,27 @@
 import {React , useContext} from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../src/context/userContext";
+// import { UserContext } from "../src/context/userContext";
 
 const UserPanel = () => {
 
-const logout = useContext(UserContext)
+// const logout = useContext(UserContext)
 
 const navigate = useNavigate();
 
 const handleNavigate = (route) => {
-  navigate(route);
+  console.log(route)
+  if(route === "/sign-in"){
+    // localStorage.clear();
+    navigate(route) 
+  } else {
+    navigate("/garage") 
+  }
 };
-const handleLogOut = () => {
-  logout();
+// const handleLogOut = () => {
+//   localStorage.clear();
+//   console.log("test")
   
-}
+// }
 
   return (
     <div className="font-poppins antialiased">
@@ -57,13 +64,13 @@ const handleLogOut = () => {
                 { icon: "dashboard", text: "Dashboard", route: "/userpanel" },
                 { icon: "garage", text: "Garage", route: "/garage" },
                 { icon: "friends", text: "Friends", route: "/friends" },
-                { icon: "logout", text: "Logout", route: "/", onClick: {handleLogOut}}
+                { icon: "logout", text: "Logout", route: "/sign-in"}
                
               ].map((item, index) => (
                 <a
                   key={index}
                   onClick={() => handleNavigate(item.route)}
-                  href={item.route}
+                  
                   className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
                 >
                   <svg
