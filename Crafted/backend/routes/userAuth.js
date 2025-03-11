@@ -1,12 +1,21 @@
 const express =  require('express');
 const router = express.Router();
+const vehicleController = require('../controllers/cars.js');
 
 const jwt = require('jsonwebtoken');
 const { registerUser, loginUser } = require('../controllers/user');
 
+// login/sign-up routes
 router.post('/register', registerUser);
-
 router.post('/login', loginUser)
+
+// garage routes
+router.get('/garage', vehicleController.getGarage);
+router.post('/garage', vehicleController.addVehicle);
+router.get('/garage/:vehicleId', vehicleController.getVehicleDetails);
+router.put('/garage/:vehicleId/modifications', vehicleController.updateModifications);
+router.delete('/garage/:vehicleId', vehicleController.deleteVehicle);
+
 
 module.exports = router;
 

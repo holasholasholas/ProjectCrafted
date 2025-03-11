@@ -13,6 +13,8 @@ import SideBar from '../components/SideBar';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import UserPanelPage from '../pages/UserPanelPage';
+import FriendPage from '../pages/FriendPage';
+import GaragePage from '../pages/GaragePage';
 
 // Auth Context
 import { UserProvider } from './context/userContext'; 
@@ -39,14 +41,12 @@ function App() {
             <Route path="/sign-up" element={<SignUpPage />} />
             
             {/* Protected route */}
-            <Route 
-              path="/userpanel" 
-              element={
-                <ProtectedRoute>
-                  <UserPanelPage />
-                </ProtectedRoute>
-              } 
-            />
+            <Route element={<ProtectedRoute />}>
+            <Route path="/userpanel" element={<UserPanelPage />} />
+            <Route path="/friends" element={<FriendPage />}/>
+            <Route path="/garage" element={ <GaragePage />} />
+            </Route>  
+            
             
             <Route path="/test3" element={<div>Test 3 Page</div>} />
           </Routes>

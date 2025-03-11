@@ -28,7 +28,10 @@ const userSchema = new mongoose.Schema({
     //   role: { type: String, enum: ['member', 'owner'], default: 'member' }
     // }],
  
-    vehicle: { type: mongoose.Schema.Types.ObjectId, ref: 'Vehicle'  }
+    vehicles: [{ 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'Vehicle'
+    }]
   
 });
 
