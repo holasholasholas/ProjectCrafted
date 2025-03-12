@@ -1,88 +1,88 @@
-const User = require('../models/userSchema');
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+// const User = require('../models/userSchema');
+// const express = require('express');
+// const jwt = require('jsonwebtoken');
+// const bcrypt = require('bcrypt');
 
 
-//register user 
+// //register user 
 
-const registerUser = async (req, res) => {
-    console.log('Register endpoint hit with data:', req.body);
-    try {
-        const { name, username, email, password } = req.body;
+// const registerUser = async (req, res) => {
+//     console.log('Register endpoint hit with data:', req.body);
+//     try {
+//         const { name, username, email, password } = req.body;
 
-        console.log("Request Body:", req.body);
+//         console.log("Request Body:", req.body);
 
-        // check if username or email already exists
-        //https://www.mongodb.com/docs/manual/reference/operator/query/or/
-        const userExists = await User.findOne({
-            $or: [{ email }, { username }],
-        });
+//         // check if username or email already exists
+//         //https://www.mongodb.com/docs/manual/reference/operator/query/or/
+//         const userExists = await User.findOne({
+//             $or: [{ email }, { username }],
+//         });
 
-        if (userExists) {
-            //https://status.js.org/
-            return res.status(409).json({ message: "Username or Email already taken"})
-        }
-    // hash password
-const salt = await bcrypt.genSalt(10);
-// https://www.npmjs.com/package/bcrypt
-const hashedPassword = await bcrypt.hash(password, salt);
+//         if (userExists) {
+//             //https://status.js.org/
+//             return res.status(409).json({ message: "Username or Email already taken"})
+//         }
+//     // hash password
+// const salt = await bcrypt.genSalt(10);
+// // https://www.npmjs.com/package/bcrypt
+// const hashedPassword = await bcrypt.hash(password, salt);
 
 
-// create user 
-const user = await User.create({
-    name,
-    username,
-    email,
-    password: hashedPassword
-});
-if (user) {
-    const payload = { username: user.username, _id: user._id };
-    const token = jwt.sign({ payload }, process.env.JWT_SECRET, { expiresIn: '1h' });
+// // create user 
+// const user = await User.create({
+//     name,
+//     username,
+//     email,
+//     password: hashedPassword
+// });
+// if (user) {
+//     const payload = { username: user.username, _id: user._id };
+//     const token = jwt.sign({ payload }, process.env.JWT_SECRET, { expiresIn: '1h' });
     
-    // return json here instead of schema 
-    res.status(201).json({
-        _id: user.id,
-        name: user.name,
-        email: user.email,
-        token,
-    });
-}
+//     // return json here instead of schema 
+//     res.status(201).json({
+//         _id: user.id,
+//         name: user.name,
+//         email: user.email,
+//         token,
+//     });
+// }
 
 
-} catch (err) {
-    console.error('Error in registerUser:', err);
-  res.status(500).json({ err: err.message });
-    }
-}
+// } catch (err) {
+//     console.error('Error in registerUser:', err);
+//   res.status(500).json({ err: err.message });
+//     }
+// }
 
-// login user 
+// // login user 
 
-const loginUser = async (req, res) => {
-    try {
-        const user = await User.findOne({ email: req.body.email });
-        if (!user) {
-            return res.status(401).json({ error: 'Invalid credentials.' });
-        }
+// const loginUser = async (req, res) => {
+//     try {
+//         const user = await User.findOne({ email: req.body.email });
+//         if (!user) {
+//             return res.status(401).json({ error: 'Invalid credentials.' });
+//         }
 
-        const isPasswordCorrect = bcrypt.compareSync(
-            req.body.password,
-            user.password
-        );
-        if (!isPasswordCorrect) {
-            return res.status(401).json({ error: 'Invalid credentials.' });
-        }
+//         const isPasswordCorrect = bcrypt.compareSync(
+//             req.body.password,
+//             user.password
+//         );
+//         if (!isPasswordCorrect) {
+//             return res.status(401).json({ error: 'Invalid credentials.' });
+//         }
 
-        const payload = { email: user.email, _id: user._id };
-        const token = jwt.sign({ payload }, process.env.JWT_SECRET);
+//         const payload = { email: user.email, _id: user._id };
+//         const token = jwt.sign({ payload }, process.env.JWT_SECRET);
 
-        res.status(200).json({ token });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-};
+//         res.status(200).json({ token });
+//     } catch (err) {
+//         res.status(500).json({ error: err.message });
+//     }
+// };
 
-module.exports = {
-    registerUser,
-    loginUser
-};
+// module.exports = {
+//     registerUser,
+//     loginUser
+// };

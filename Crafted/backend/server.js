@@ -1,32 +1,37 @@
+
+const dotenv = require('dotenv');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const dotenv = require('dotenv');
-const authRoutes = require('./routes/userAuth');
-
-
-dotenv.config();
-
-
+const logger = require('morgan');
 const app = express();
 
-// middleware 
-app.use(cors({
-    origin: 'http://localhost:5173', // Your frontend URL
-    credentials: true // This allows cookies and authentication headers
-  }));
+dotenv.config();
+// Import routers
+const authController = require('./controllers/auth');
+const carsController = require('./controllers/cars');
+
+
+
+// Middleware
+app.use(cors());
 app.use(express.json());
+app.use(logger('dev'));
 
-console.log("MongoDB URI:", process.env.MONGODB_URI); 
-mongoose.connect(process.env.MONGODB_URI)
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
-
-//routes
-app.use('/api', authRoutes); 
+// Routes
+app.use('/auth', authController);
+app.use('/garage', carsController);
+// app.use('/friends', friendController);
+// app.use('/groups', groupContoller);
 
 
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI);
+mongoose.connection.on('connected', () => {
+  console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
+});
 
+// Start the server and listen on port 3000
+app.listen(3000, () => {
+  console.log('The express app is ready!');
+});

@@ -1,17 +1,19 @@
 meta {
-  name: login
+  name: Sign Up User
   type: http
-  seq: 2
+  seq: 5
 }
 
 post {
-  url: http://localhost:5000/api/
+  url: http://localhost:3000/auth/sign-up
   body: json
   auth: none
 }
 
 body:json {
   {
+    "name":"tasd",
+    "username": "adasdqw",
     "email": "nicholas.lfh91@gmail.com",
     "password": "541991"
   }

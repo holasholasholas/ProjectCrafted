@@ -75,6 +75,7 @@ function UserProvider({ children }) {
           
           
             return true;
+            
         } catch (err) {
             console.error('Login error:', err);
             setError(err.response?.data?.message || 'Login failed');

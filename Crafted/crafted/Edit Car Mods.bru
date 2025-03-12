@@ -1,0 +1,60 @@
+meta {
+  name: Edit Car Mods
+  type: http
+  seq: 7
+}
+
+put {
+  url: http://localhost:3000/garage/67d0cd1b1063fc78bae1624f/modifications
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "modifications": {
+      "interior": {
+        "seats": "recaro",
+        "steeringWheel": "Stock",
+        "miscAccessories": "None",
+        "audioSystem": "Stock"
+      },
+      "exterior": {
+        "aero": {
+          "frontSplitter": "None",
+          "rearDiffuser": "None"
+        },
+        "bodyKits": "Stock",
+        "spoilers": "None",
+        "wheels": "Stock",
+        "tires": "Stock"
+      },
+      "handling": {
+        "suspension": {
+          "coiloversLoweringSprings": "Stock",
+          "swayBars": "Stock",
+          "strutBar": "None"
+        },
+        "brakes": {
+          "brakePads": "Stock",
+          "brakeRotors": "Stock",
+          "brakeCalipers": "Stock"
+        }
+      },
+      "engine": {
+        "exhaustSystems": {
+          "downpipe": "Stock",
+          "midpipe": "Stock",
+          "muffler": "Stock"
+        },
+        "transmission": {
+          "clutch": "Stock",
+          "finalDrive": "Stock"
+        },
+        "ecuTuning": "Stock",
+        "turboSuperCharger": "None",
+        "airIntake": "Stock"
+      }
+    }
+  }
+}
