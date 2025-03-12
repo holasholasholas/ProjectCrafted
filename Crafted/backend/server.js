@@ -10,6 +10,7 @@ dotenv.config();
 // Import routers
 const authController = require('./controllers/auth');
 const carsController = require('./controllers/cars');
+const groupController = require('./controllers/group');
 
 
 
@@ -22,7 +23,7 @@ app.use(logger('dev'));
 app.use('/auth', authController);
 app.use('/garage', carsController);
 // app.use('/friends', friendController);
-// app.use('/groups', groupContoller);
+app.use('/group', groupController);
 
 
 // Connect to MongoDB

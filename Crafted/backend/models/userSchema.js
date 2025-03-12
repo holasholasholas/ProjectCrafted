@@ -23,10 +23,10 @@ const userSchema = new mongoose.Schema({
       type: Date,
       default: Date.now
     },
-    // groups: [{
-    //   group: { type: mongoose.Schema.Types.ObjectId, ref: 'Group' },
-    //   role: { type: String, enum: ['member', 'owner'], default: 'member' }
-    // }],
+    groups: [{
+      group: { type: mongoose.Schema.Types.ObjectId, ref: 'Group' },
+      role: { type: String, enum: ['member', 'owner'], default: 'member' }
+    }],
  
     vehicles: [{ 
       type: mongoose.Schema.Types.ObjectId, 
