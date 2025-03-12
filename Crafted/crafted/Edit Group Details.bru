@@ -1,0 +1,18 @@
+meta {
+  name: Edit Group Details
+  type: http
+  seq: 12
+}
+
+put {
+  url: http://localhost:3000/group/67d0ef59fae71bd0d7bbe672
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "hahaha",
+    "description": "adasdasd"
+  }
+}

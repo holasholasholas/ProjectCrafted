@@ -28,17 +28,17 @@ router.post('/', verifyToken, async(req, res) => {
 
 // Find cars created by user via decrypting token and get id from it 
 router.get("/", verifyToken, async (req, res) => {
+  
     try {
       // Find the user and populate their vehicles
-      const user = await User.findById(req.user._id).populate({
-        path: "vehicles", //reference vehicle collection
-      });
+      const user = await User.findById(req.user._id)
+      console.log(user)
       
       if (!user.vehicles) {
         return res.status(200).json([]); // Return empty array if no vehicles
       }
       
-      res.status(200).json(user.vehicle);
+      res.status(200).json(user.vehicles);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

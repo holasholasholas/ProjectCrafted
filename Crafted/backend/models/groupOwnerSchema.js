@@ -14,10 +14,7 @@ const groupOwnerSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  members: [{
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
+  members: [{ user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'
     },
     role: {
       type: String,
