@@ -1,13 +1,11 @@
-import  { useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-
+import * as authService from "../services/authService";
 
 const SignUpComponent = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        fullname: '',
+        name: '',
         username: '',
         email: '',
         password: '',
@@ -24,7 +22,7 @@ const SignUpComponent = () => {
     };
 
     const validateForm = () => {
-        if (!formData.fullname || !formData.email || !formData.password || !formData.confirm_password) {
+        if (!formData.name || !formData.email || !formData.password || !formData.confirm_password) {
             setError('All fields are required');
             return false;
         }
@@ -47,37 +45,41 @@ const SignUpComponent = () => {
 
         return true;
     };
-
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-
+        
         if (!validateForm()) {
             return;
         }
-
+        
         setLoading(true);
-
+        
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/register', {
-                name: formData.fullname,
-                username: formData.username,
-                email: formData.email,
-                password: formData.password
-            });
-
-            if (response.data) {
+            
+  
+            const createAccount = await authService.signUp(formData)
+            console.log(createAccount)
+            
+            
+            if (createAccount) {
                 navigate('/userpanel');
             }
         } catch (error) {
-            setError('Registration failed, try again');
+            console.error('Registration error:', error);
+            setError(
+                error.response?.data?.message || 
+                error.message || 
+                'Registration failed, please try again'
+            );
         } finally {
             setLoading(false);
         }
     };
-
+    
     return (
-        <div className="bg-white min-h-screen flex flex-col">
+        <div className="min-h-screen flex flex-col">
             <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                 <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
                     <h1 className="mb-8 text-3xl text-center">Sign up</h1>
@@ -92,9 +94,9 @@ const SignUpComponent = () => {
                         <input
                             type="text"
                             className="block border border-grey-light w-full p-3 rounded mb-4"
-                            name="fullname"
+                            name="name"
                             placeholder="Full Name"
-                            value={formData.fullname}
+                            value={formData.name}
                             onChange={handleChange}
                         />
 
@@ -145,22 +147,14 @@ const SignUpComponent = () => {
 
                     <div className="text-center text-sm text-grey-dark mt-4">
                         By signing up, you agree to the
-                        <a className="no-underline border-b border-grey-dark text-grey-dark cursor-pointer ml-1">
+                        <a className="border-grey-dark text-grey-dark ml-1">
                             Terms of Service
                         </a>{" "}
                         and
-                        <a className="no-underline border-b border-grey-dark text-grey-dark cursor-pointer ml-1">
+                        <a className="border-grey-dark text-grey-dark ml-1">
                             Privacy Policy
                         </a>
                     </div>
-                </div>
-
-                <div className="text-grey-dark mt-6">
-                    Already have an account?{" "}
-                    <a className="no-underline border-b border-blue text-blue" href="/sign-in">
-                        Log in
-                    </a>
-                    .
                 </div>
             </div>
         </div>

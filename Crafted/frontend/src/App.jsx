@@ -6,8 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // Components
 import BackgroundVideo from '../components/BackgroundVideo';
-import NavBar from '../components/NavBar';
-import SideBar from '../components/SideBar';
+// import NavBar from '../components/NavBar';
+// import SideBar from '../components/SideBar';
 
 // Pages
 import LoginPage from '../pages/LoginPage';
@@ -20,18 +20,18 @@ import GaragePage from '../pages/GaragePage';
 import { UserProvider } from './context/userContext'; 
 
 // Protected Route Component
-import ProtectedRoute from '../components/routing/ProtectedRoute'; 
+// import ProtectedRoute from '../components/routing/ProtectedRoute'; 
 
 function App() {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   return (
     <UserProvider>
       <BrowserRouter>
         <div className="App">
           <ToastContainer position="top-right" autoClose={3000} />
-          <NavBar toggleDrawer={() => setOpen(true)} />
-          <SideBar open={open} onClose={() => setOpen(false)} />
+          {/* <NavBar toggleDrawer={() => setOpen(true)} /> */}
+          {/* <SideBar open={open} onClose={() => setOpen(false)} /> */}
           <BackgroundVideo />
         
           <Routes>
@@ -41,11 +41,11 @@ function App() {
             <Route path="/sign-up" element={<SignUpPage />} />
             
             {/* Protected route */}
-            <Route element={<ProtectedRoute />}>
+            {/* <Route element={<ProtectedRoute />}> */}
             <Route path="/userpanel" element={<UserPanelPage />} />
             <Route path="/friends" element={<FriendPage />}/>
             <Route path="/garage" element={ <GaragePage />} />
-            </Route>  
+            {/* </Route>   */}
             
             
             <Route path="/test3" element={<div>Test 3 Page</div>} />
