@@ -1,3 +1,4 @@
+// all URL here begin with /garage
 const Vehicle = require('../models/vehicleSchema');
 const User = require('../models/userSchema');
 const jwt = require("jsonwebtoken");
@@ -31,7 +32,7 @@ router.get("/", verifyToken, async (req, res) => {
   
     try {
       // Find the user and populate their vehicles
-      const user = await User.findById(req.user._id)
+      const user = await User.findById(req.user._id).populate('vehicles');
       console.log(user)
       
       if (!user.vehicles) {
@@ -44,6 +45,29 @@ router.get("/", verifyToken, async (req, res) => {
     }
   });
 
+//   // UPDATE: update a car's information
+// router.put("/:car_id", verifyToken, async (req, res) => {
+//   try {
+//     const car_id = req.params.car_id;
+    
+//     // Find the car first to verify ownership
+//     const car = await Vehicle.findById(car_id);
+    
+//     if (!car) {
+//       return res.status(404).json({ error: "Car not found" });
+//     }
+    
+//     const updatedCar = await Vehicle.findByIdAndUpdate(
+//       car_id,
+//       req.body,
+//       { new: true }
+//     );
+    
+//     res.status(200).json(updatedCar);
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// });
 
   // Find specific car details and modlist 
   router.get("/:car_id", verifyToken, async (req, res) => {
@@ -64,6 +88,27 @@ router.get("/", verifyToken, async (req, res) => {
     }
   });
 
+  
+  router.delete("/:car_id", verifyToken, async (req, res) => {
+    try {
+      const { car_id } = req.params;
+      console.log(car_id);
+      
+      // Find the car first to verify ownership
+      const deleteCar = await Vehicle.findByIdAndDelete(car_id);
+      console.log(deleteCar)
+      // Remove the car reference from the user's vehicle array
+      await User.findByIdAndUpdate(
+        req.user._id,
+        { $pull: { vehicles: car_id } }
+      );
+      
+      res.status(200).json({ message: "Car successfully deleted" });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+  
   // updates car mod list, have to send whole form 
   router.put("/:car_id/modifications", verifyToken, async (req, res) => {
     try{
@@ -81,5 +126,4 @@ router.get("/", verifyToken, async (req, res) => {
     
   });
   
-
-module.exports = router;
+  module.exports = router;
