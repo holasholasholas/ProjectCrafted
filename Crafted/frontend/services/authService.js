@@ -40,7 +40,7 @@ async function signIn(formData) {
     
     throw new Error('Invalid response from server');
   }  catch (error) { 
-    console.error('error during sign up:', error);
+    console.error('error during sign in:', error);
     throw error; 
   }
   }

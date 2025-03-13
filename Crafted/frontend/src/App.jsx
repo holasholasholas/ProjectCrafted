@@ -17,7 +17,7 @@ import FriendPage from '../pages/FriendPage';
 import GaragePage from '../pages/GaragePage';
 
 // Auth Context
-import { UserProvider } from './context/userContext'; 
+import { UserProvider } from './context/UserContext'; 
 
 // Protected Route Component
 // import ProtectedRoute from '../components/routing/ProtectedRoute'; 
