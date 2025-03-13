@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import VehicleCard from "../components/VehicleCard";
-import UserPanel from "../components/UserPanel";
+import { useNavigate } from "react-router-dom";
+// import UserPanel from "../components/UserPanel";
 import * as garageService from "../services/garageService";
 
+
 const GaragePage = () => {
-  const [vehicles, setVehicles] = useState([]);
+
+const navigate = useNavigate();
+
+const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -32,8 +37,26 @@ const GaragePage = () => {
       }
     }
 
+    // async function deleteVehicle(){
+    //     try {
+    //         setLoading(true);
+    //         await garageService.deleteCar()
+            
+    //     } catch (error) {
+    //         console.log("Error deleting car", error);
+    //         setError("Failed to delete vehiclee. Please try again later.");
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // }
+
+    
     fetchVehicles();
   }, []);
+
+ 
+   
+  
 
 // TO DO SERVICES 
 const handleView = (vehicleId) => {
@@ -41,10 +64,15 @@ const handleView = (vehicleId) => {
     
   };
 
-  const handleDelete = (vehicleId) => {
-    console.log("Delete vehicle with ID:", vehicleId);
-    
-  };
+  const handleDelete = async (car_id) => {
+    try {
+        await garageService.deleteCar(car_id);
+        // set new state to force "refresh" after delete
+        setVehicles(newList => newList.filter(car => car.id !== car_id)) // https://stackoverflow.com/questions/58102050/refresh-page-after-deleting-in-angular
+    } catch (error) {
+        console.log("Delete vehicle with ID:", car_id);
+        
+    }};
 
   if (loading) {
     return <div>Loading...</div>;
@@ -56,7 +84,7 @@ const handleView = (vehicleId) => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <UserPanel />
+      {/* <UserPanel /> */}
 
       {loading ? (
         <div className="text-center py-8">Loading vehicles...</div>

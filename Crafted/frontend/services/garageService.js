@@ -14,19 +14,30 @@ async function showCar() {
     }
 }
 
+async function deleteCar(car_id) {
+    try {
+        const response = await axios.delete(`${BASE_URL}/${car_id}`, config)
+        console.log(response)
+        return response.data;
+        
+    } catch (error) {
+        console.error("Error deleting car:", error);
+        throw error;
+    }
+}
 // // create car
 // async function createCar(carData) {
-//     try {
+    //     try {
 //         const response = await axios.post(BASE_URL, carData, {
-//             headers: {
-//                 'Authorization': localStorage.getItem('token')
-//             }
-//         });
-//         return response.data;
-//     } catch (error) {
-//         console.error("Error creating car:", error);
-//         throw error;
-//     }
+    //             headers: {
+        //                 'Authorization': localStorage.getItem('token')
+        //             }
+        //         });
+        //         return response.data;
+        //     } catch (error) {
+            //         console.error("Error creating car:", error);
+            //         throw error;
+            //     }
 // }
 
 // // edit car
@@ -60,18 +71,5 @@ async function showCar() {
 // }
 
 // // delete car
-// async function deleteCar(carId) {
-//     try {
-//         const response = await axios.delete(`${BASE_URL}/${carId}`, {
-//             headers: {
-//                 'Authorization': localStorage.getItem('token')
-//             }
-//         });
-//         return response.data;
-//     } catch (error) {
-//         console.error("Error deleting car:", error);
-//         throw error;
-//     }
-// }
 
-export { showCar };
+export { showCar, deleteCar };
