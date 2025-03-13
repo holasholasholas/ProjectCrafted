@@ -3,6 +3,7 @@ import VehicleCard from "../components/VehicleCard";
 import { useNavigate } from "react-router-dom";
 // import UserPanel from "../components/UserPanel";
 import * as garageService from "../services/garageService";
+import { CarModForm } from "../components/ModPopUp";
 
 
 const GaragePage = () => {
@@ -12,6 +13,8 @@ const navigate = useNavigate();
 const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [mods, setMods] = useState({});
 
   useEffect(() => {
     async function fetchVehicles() {
@@ -25,10 +28,32 @@ const [vehicles, setVehicles] = useState([]);
           model: item.model,
           yearOfManufacture: item.yearOfManufacture,
         }));
-
- console.log(formattedVehicles[0].make)
-        setVehicles(formattedVehicles);
         
+        console.log(formattedVehicles)
+        setVehicles(formattedVehicles);
+       
+        
+        // mod list doesn't have id in db, should just get from above just nested more
+
+    const modificationsVehicles = data.map((mod) => ({
+            
+        id: mod._id,
+        make: mod.make,
+        model: mod.model,
+        yearOfManufacture: mod.yearOfManufacture,
+        seats: mod.modifications.interior.seats,
+        steeringWheel: mod.modifications.interior.steeringWheel,
+        wheels: mod.modifications.exterior.wheels,
+        spoiler: mod.modifications.exterior.spoiler,
+        exhaust: mod.modifications.engine.exhaustSystems,
+        ecu: mod.modifications.engine.ecuTuning
+
+
+        }))
+        console.log(modificationsVehicles)
+        setMods(modificationsVehicles)
+        
+
       } catch (error) {
         console.error("Error fetching vehicles:", error);
         setError("Failed to load vehicles. Please try again later.");
@@ -37,18 +62,18 @@ const [vehicles, setVehicles] = useState([]);
       }
     }
 
-    // async function deleteVehicle(){
-    //     try {
-    //         setLoading(true);
-    //         await garageService.deleteCar()
+    async function deleteVehicle(){
+        try {
+            setLoading(true);
+            await garageService.deleteCar()
             
-    //     } catch (error) {
-    //         console.log("Error deleting car", error);
-    //         setError("Failed to delete vehiclee. Please try again later.");
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // }
+        } catch (error) {
+            console.log("Error deleting car", error);
+            setError("Failed to delete vehiclee. Please try again later.");
+        } finally {
+            setLoading(false);
+        }
+    }
 
     
     fetchVehicles();
@@ -81,7 +106,7 @@ const handleView = (vehicleId) => {
   if (error) {
     return <div>{error}</div>;
   }
-
+console.log(mods)
   return (
     <div className="container mx-auto px-4 py-8">
       {/* <UserPanel /> */}
@@ -103,10 +128,23 @@ const handleView = (vehicleId) => {
             <VehicleCard
               key={vehicle.id}
               vehicle={vehicle}
-              onView={() => handleView(vehicle.id)}
+              onView={() => setOpen((cur) => !cur)}
               onDelete={() => handleDelete(vehicle.id)}
             />
           ))}
+         <div>
+  {mods.map((vehicle) => (
+    <CarModForm
+      key={vehicle.id} 
+      vehicles={vehicle} 
+      mods={mods} 
+      open={open}
+      setOpen={setOpen} 
+    />
+  ))}
+</div>
+              
+          
         </div>
       )}
     </div>
