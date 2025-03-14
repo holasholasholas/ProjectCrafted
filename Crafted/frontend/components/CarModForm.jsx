@@ -9,7 +9,8 @@ import {
   Input,
 } from "@material-tailwind/react";
 
-export default function CarModForm({ carData }) {
+export default function CarModForm( {carData} ) {
+  
   const [formData, setFormData] = useState({
     make: "",
     model: "",
@@ -34,10 +35,11 @@ export default function CarModForm({ carData }) {
     },
   });
 
-  // Update formData when carData changes
+  // Update formData when props changes
   useEffect(() => {
     if (carData) {
-      // Destructure carData to access nested properties
+      
+      // Destructure props to access nested properties
       const {
         make,
         model,
@@ -78,6 +80,8 @@ export default function CarModForm({ carData }) {
       });
     }
   }, [carData]);
+
+  console.log("step 2", formData)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -146,7 +150,7 @@ export default function CarModForm({ carData }) {
                   size="lg"
                   name="make"
                   value={formData.make}
-                  placeholder={formData.make}
+                  
                   onChange={handleChange}
                   className="w-full"
                 />

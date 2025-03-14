@@ -6,7 +6,7 @@ import * as garageService from "../services/garageService";
 import  CarModForm  from "../components/CarModForm";
 
 
-const GaragePage = () => {
+const GaragePage = ({ carData, setCarData }) => {
 
 const navigate = useNavigate();
 
@@ -15,7 +15,7 @@ const [vehicles, setVehicles] = useState([]);
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
   const [mods, setMods] = useState([]);
-  const [carData, setCarData] = useState(null);
+  
 
   useEffect(() => {
     async function fetchVehicles() {
@@ -131,16 +131,16 @@ const handleView = async (car_id) => {
             />
           ))}
          <div>
-  {mods.map((vehicle) => (
-    <CarModForm
-      key={vehicle.id} 
+  
+    {/* <CarModForm
+     
        
       
       open={open}
       setOpen={setOpen} 
       carData={carData}
-    />
-  ))}
+    /> */}
+  
 </div>
               
           
