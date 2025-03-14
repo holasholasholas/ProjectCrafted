@@ -53,22 +53,21 @@ async function deleteCar(car_id) {
             //     }
 // }
 
-// // edit car
-// async function editCar(carId, modificationData) {
-//     try {
-//         const response = await axios.put(`${BASE_URL}/${carId}/modifications`, modificationData, {
-//             headers: {
-//                 'Authorization': localStorage.getItem('token')
-//             }
-//         });
-//         return response.data;
-//     } catch (error) {
-//         console.error("Error updating car:", error);
-//         throw error;
-//     }
-// }
+// edit car
+async function editCar(car_id, carDataToSend) {
+    try {
+        console.log(car_id);
+        const response = await axios.put(`${BASE_URL}/${car_id}`, carDataToSend, config
+        );
+        console.log(response);
+        return response.data;
+    } catch (error) {
+        console.error("Error updating car:", error);
+        throw error;
+    }
+}
 
 
-// // delete car
 
-export { showCar, deleteCar, getCarDetails };
+
+export { showCar, deleteCar, getCarDetails, editCar };

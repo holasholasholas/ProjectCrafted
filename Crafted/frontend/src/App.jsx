@@ -25,6 +25,8 @@ import { UserProvider } from './context/UserContext';
 
 function App() {
 
+
+
   const [carData, setCarData] = useState({
       make: "",
       model: "",
@@ -68,8 +70,8 @@ function App() {
             {/* <Route element={<ProtectedRoute />}> */}
             <Route path="/userpanel" element={<UserPanelPage />} />
             <Route path="/friends" element={<FriendPage />}/>
-            <Route path="/garage" element={ <GaragePage carData={carData} setCarData={setCarData} /> } />
-            <Route path="/garage/:carId" element={<CarModForm carData={carData} setCarData={setCarData} />} />
+            <Route path="/garage" element={ <GaragePage carData={carData} setCarData={setCarData}  /> } />
+            <Route path="/garage/:carId" element={<CarModForm carData={carData} setCarData={setCarData}  />} />
             {/* </Route>   */}
             
             

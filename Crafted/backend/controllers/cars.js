@@ -45,7 +45,7 @@ router.get("/", verifyToken, async (req, res) => {
     }
   });
 
-//   // UPDATE: update a car's information
+  // UPDATE: update a car's information
 // router.put("/:car_id", verifyToken, async (req, res) => {
 //   try {
 //     const car_id = req.params.car_id;
@@ -88,7 +88,7 @@ router.get("/", verifyToken, async (req, res) => {
     }
   });
 
-  
+  //delete car
   router.delete("/:car_id", verifyToken, async (req, res) => {
     try {
       const { car_id } = req.params;
@@ -110,7 +110,7 @@ router.get("/", verifyToken, async (req, res) => {
   });
   
   // updates car mod list, have to send whole form 
-  router.put("/:car_id/modifications", verifyToken, async (req, res) => {
+  router.put("/:car_id/", verifyToken, async (req, res) => {
     try{
         const car_id = req.params.car_id;
         const updatedModifications = req.body.modifications;

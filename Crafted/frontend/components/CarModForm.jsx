@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import * as garageService from "../services/garageService";
 import {
   Button,
   Card,
@@ -120,9 +121,20 @@ export default function CarModForm( {carData} ) {
     }));
   };
 
-  const handleSubmit = () => {
-    console.log("Form submitted:", formData);
-    // to do api
+  const handleSubmit = async () => {
+    console.log(carData)
+    try {
+      const car_id = carData._id;
+      console.log(car_id)
+
+      const carDataToSend = formData
+      console.log(carDataToSend)
+
+      const updateCar = await garageService.editCar(car_id, carDataToSend);
+      console.log("Form submitted:", updateCar);
+    } catch (error) {
+      console.log("unable to edit car details");
+    }
   };
 
   return (

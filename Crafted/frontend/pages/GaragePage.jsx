@@ -74,6 +74,8 @@ const [vehicles, setVehicles] = useState([]);
   
 
 // TO DO SERVICES 
+
+
 const handleView = async (car_id) => {
   try {
     const carData = await garageService.getCarDetails(car_id);
