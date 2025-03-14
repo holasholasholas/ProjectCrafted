@@ -14,6 +14,19 @@ async function showCar() {
     }
 }
 
+// get specific car
+async function getCarDetails(car_id) {
+    try {
+        const response = await axios.get(`${BASE_URL}/${car_id}`, config) 
+            console.log(response)
+            return response.data;
+        
+    } catch (error) {
+        console.error("Error fetching car details:", error);
+        throw error;
+    }
+}
+
 async function deleteCar(car_id) {
     try {
         const response = await axios.delete(`${BASE_URL}/${car_id}`, config)
@@ -55,21 +68,7 @@ async function deleteCar(car_id) {
 //     }
 // }
 
-// // get specific car
-// async function getCarDetails(carId) {
-//     try {
-//         const response = await axios.get(`${BASE_URL}/${carId}`, {
-//             headers: {
-//                 'Authorization': localStorage.getItem('token')
-//             }
-//         });
-//         return response.data;
-//     } catch (error) {
-//         console.error("Error fetching car details:", error);
-//         throw error;
-//     }
-// }
 
 // // delete car
 
-export { showCar, deleteCar };
+export { showCar, deleteCar, getCarDetails };

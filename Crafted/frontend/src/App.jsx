@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // Components
 import BackgroundVideo from '../components/BackgroundVideo';
+import CarModForm from '../components/CarModForm'
 // import NavBar from '../components/NavBar';
 // import SideBar from '../components/SideBar';
 
@@ -45,6 +46,7 @@ function App() {
             <Route path="/userpanel" element={<UserPanelPage />} />
             <Route path="/friends" element={<FriendPage />}/>
             <Route path="/garage" element={ <GaragePage />} />
+            <Route path="/garage/:carId" element={<CarModForm />} />
             {/* </Route>   */}
             
             

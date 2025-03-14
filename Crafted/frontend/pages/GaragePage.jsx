@@ -3,7 +3,7 @@ import VehicleCard from "../components/VehicleCard";
 import { useNavigate } from "react-router-dom";
 // import UserPanel from "../components/UserPanel";
 import * as garageService from "../services/garageService";
-import { CarModForm } from "../components/ModPopUp";
+import  CarModForm  from "../components/CarModForm";
 
 
 const GaragePage = () => {
@@ -14,14 +14,15 @@ const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
-  const [mods, setMods] = useState({});
+  const [mods, setMods] = useState([]);
+  const [carData, setCarData] = useState(null);
 
   useEffect(() => {
     async function fetchVehicles() {
       try {
         setLoading(true);
         const data = await garageService.showCar();
-        console.log(data)
+        // console.log(data)
         const formattedVehicles = data.map((item) => ({
           id: item._id,
           make: item.make,
@@ -29,7 +30,7 @@ const [vehicles, setVehicles] = useState([]);
           yearOfManufacture: item.yearOfManufacture,
         }));
         
-        console.log(formattedVehicles)
+        // console.log(formattedVehicles)
         setVehicles(formattedVehicles);
        
         
@@ -50,7 +51,7 @@ const [vehicles, setVehicles] = useState([]);
 
 
         }))
-        console.log(modificationsVehicles)
+        // console.log(modificationsVehicles)
         setMods(modificationsVehicles)
         
 
@@ -62,18 +63,7 @@ const [vehicles, setVehicles] = useState([]);
       }
     }
 
-    async function deleteVehicle(){
-        try {
-            setLoading(true);
-            await garageService.deleteCar()
-            
-        } catch (error) {
-            console.log("Error deleting car", error);
-            setError("Failed to delete vehiclee. Please try again later.");
-        } finally {
-            setLoading(false);
-        }
-    }
+   
 
     
     fetchVehicles();
@@ -84,10 +74,17 @@ const [vehicles, setVehicles] = useState([]);
   
 
 // TO DO SERVICES 
-const handleView = (vehicleId) => {
-    console.log("View vehicle with ID:", vehicleId);
-    
-  };
+const handleView = async (car_id) => {
+  try {
+    const carData = await garageService.getCarDetails(car_id);
+    // console.log(carData)
+    setCarData(carData)
+    navigate(`/garage/${car_id}`);
+
+  }catch(error){
+    console.log("unable to view car mod details")
+  }
+};
 
   const handleDelete = async (car_id) => {
     try {
@@ -106,7 +103,7 @@ const handleView = (vehicleId) => {
   if (error) {
     return <div>{error}</div>;
   }
-console.log(mods)
+// console.log(mods)
   return (
     <div className="container mx-auto px-4 py-8">
       {/* <UserPanel /> */}
@@ -128,18 +125,20 @@ console.log(mods)
             <VehicleCard
               key={vehicle.id}
               vehicle={vehicle}
-              onView={() => setOpen((cur) => !cur)}
+              onView={() => handleView(vehicle.id)}
               onDelete={() => handleDelete(vehicle.id)}
+
             />
           ))}
          <div>
   {mods.map((vehicle) => (
     <CarModForm
       key={vehicle.id} 
-      vehicles={vehicle} 
-      mods={mods} 
+       
+      
       open={open}
       setOpen={setOpen} 
+      carData={carData}
     />
   ))}
 </div>
