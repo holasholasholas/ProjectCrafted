@@ -45,6 +45,8 @@ router.get("/", verifyToken, async (req, res) => {
     }
   });
 
+  
+
   // UPDATE: update a car's information
 // router.put("/:car_id", verifyToken, async (req, res) => {
 //   try {

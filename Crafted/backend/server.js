@@ -11,6 +11,7 @@ dotenv.config();
 const authController = require('./controllers/auth');
 const carsController = require('./controllers/cars');
 const groupController = require('./controllers/group');
+const searchController = require('./controllers/search');
 
 
 
@@ -24,6 +25,7 @@ app.use('/auth', authController);
 app.use('/garage', carsController);
 // app.use('/friends', friendController);
 app.use('/group', groupController);
+app.use('/search', searchController);
 
 
 // Connect to MongoDB
