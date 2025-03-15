@@ -1,0 +1,11 @@
+meta {
+  name: Get login user
+  type: http
+  seq: 16
+}
+
+get {
+  url: http://localhost:3000/userpanel
+  body: json
+  auth: inherit
+}

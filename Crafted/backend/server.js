@@ -12,6 +12,7 @@ const authController = require('./controllers/auth');
 const carsController = require('./controllers/cars');
 const groupController = require('./controllers/group');
 const searchController = require('./controllers/search');
+const userPanelController = require('./controllers/userpanel');
 
 
 
@@ -23,9 +24,9 @@ app.use(logger('dev'));
 // Routes
 app.use('/auth', authController);
 app.use('/garage', carsController);
-// app.use('/friends', friendController);
 app.use('/group', groupController);
 app.use('/search', searchController);
+app.use('/userpanel', userPanelController);
 
 
 // Connect to MongoDB
