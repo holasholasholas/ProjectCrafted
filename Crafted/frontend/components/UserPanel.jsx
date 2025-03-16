@@ -4,25 +4,28 @@ import { UserContext } from "../src/context/UserContext";
 import * as userPanelService from "../services/userPanelService";
 import CreateGroupBox from "./CreateGroupBox";
 
-
 const UserPanel = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [userDetails, setUserDetails] = useState({});
-  const [toggleCreateGroup, setToggleCreateGroup] = useState(false)
-  
+  const [toggleCreateGroup, setToggleCreateGroup] = useState(false);
+  const [toggleUserType, setToggleUserType] = useState("User");
 
   useEffect(() => {
     async function showCurrentUser() {
       const userData = await userPanelService.showCurrentUser(user._id);
-      console.log(userData)
+      console.log(userData);
       setUserDetails(userData);
+      const groups = userData.user.groups;
+      console.log(groups);
+
+      setToggleUserType(groups.length > 0 ? "Owner" : "User");
     }
     showCurrentUser();
-  }, [user]);
+  }, [user, toggleCreateGroup, toggleUserType]);
 
- 
   const userData = userDetails.user || {};
+
   const {
     name,
     email,
@@ -31,6 +34,7 @@ const UserPanel = () => {
     _id,
     groups = [],
     createdAt,
+    rubbish = [],
   } = userData;
 
   const handleNavigate = (route) => {
@@ -75,19 +79,38 @@ const UserPanel = () => {
                   {user.username}
                 </h2>
                 <p className="text-xs text-gray-500 text-center">
-                  Administrator
+                  {toggleUserType}
                 </p>
               </div>
             </div>
 
             {/* Menu Items */}
             <div id="menu" className="flex flex-col space-y-2">
-              {[
-                { icon: "dashboard", text: "Dashboard", route: "/userpanel" },
-                { icon: "garage", text: "Garage", route: "/garage" },
-                { icon: "friends", text: "Search", route: "/search" },
-                { icon: "logout", text: "Logout", route: "/sign-in" },
-              ].map((item, index) => (
+              {(toggleUserType === "User"
+                ? [
+                    {
+                      icon: "dashboard",
+                      text: "Dashboard",
+                      route: "/userpanel",
+                    },
+                    { icon: "garage", text: "Garage", route: "/garage" },
+                    { icon: "friends", text: "Search", route: "/search" },
+                    { icon: "logout", text: "Logout", route: "/sign-in" },
+                  ]
+                : toggleUserType === "Owner"
+                ? [
+                    {
+                      icon: "dashboard",
+                      text: "Dashboard",
+                      route: "/userpanel",
+                    },
+                    { icon: "garage", text: "Garage", route: "/garage" },
+                    { icon: "group", text: "Groups", route: "/group" },
+                    { icon: "friends", text: "Search", route: "/search" },
+                    { icon: "logout", text: "Logout", route: "/sign-in" },
+                  ]
+                : []
+              ).map((item, index) => (
                 <a
                   key={index}
                   onClick={() => handleNavigate(item.route)}
@@ -106,7 +129,6 @@ const UserPanel = () => {
               ))}
             </div>
           </div>
-          
         </div>
 
         {/* Main Content - Right side */}
@@ -154,7 +176,7 @@ const UserPanel = () => {
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <h2 className="text-lg font-semibold mb-3 text-gray-700">
                       Vehicle Information
@@ -207,12 +229,11 @@ const UserPanel = () => {
                   )}
                 </div>
                 {toggleCreateGroup && (
-      <CreateGroupBox 
-        onClose={() => setToggleCreateGroup(false)}
-        userId={_id}
-        
-      />
-    )}
+                  <CreateGroupBox
+                    onClose={() => setToggleCreateGroup(false)}
+                    userId={_id}
+                  />
+                )}
                 <div className="flex justify-end mt-4">
                   <button
                     className="bg-teal-500 text-white px-4 py-2 rounded-md hover:bg-teal-600 transition duration-200"
@@ -222,7 +243,6 @@ const UserPanel = () => {
                   </button>
                 </div>
               </div>
-              
             ) : (
               <div className="flex justify-center items-center h-40">
                 <p className="text-gray-500">Loading user details...</p>
