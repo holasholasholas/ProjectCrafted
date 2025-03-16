@@ -13,12 +13,14 @@ const CreateGroupBox = ({ onClose }) => {
       ...formInput,
       [name]: value
     });
+    console.log("troubleshooting formInput", { ...formInput, [name]: value });
   };
 
   const handleSubmit = async () => {
-    try {
-      await groupService.createGroup(formInput);
       console.log(formInput)
+    try {
+
+      await groupService.createGroup(formInput);
       onClose(); 
     } catch (error) {
       console.error("Error creating group:", error);
@@ -62,7 +64,7 @@ const CreateGroupBox = ({ onClose }) => {
 
           <div className="p-6 pt-0">
             <button
-              onClick={handleSubmit}
+              onClick={() => handleSubmit(formInput)}
               className="w-full rounded-md bg-teal-500 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700"
               type="button"
             >
