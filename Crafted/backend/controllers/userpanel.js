@@ -12,7 +12,7 @@ const router = express.Router();
 router.get("/", verifyToken, async (req, res) => {
   try {
       const userId = req.user._id
-      const user = await User.findById(userId);
+      const user = await User.findById(userId).populate('groups');
       if (!user) {
         return res.status(401).json({ err: 'Invalid credentials.' });
       }

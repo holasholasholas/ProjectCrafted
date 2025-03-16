@@ -6,7 +6,7 @@ import CreateGroupBox from "./CreateGroupBox";
 
 const UserPanel = () => {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [userDetails, setUserDetails] = useState({});
   const [toggleCreateGroup, setToggleCreateGroup] = useState(false);
   const [toggleUserType, setToggleUserType] = useState("User");
@@ -30,12 +30,14 @@ const UserPanel = () => {
     name,
     email,
     username,
-    vehicles = [],
+    vehicles,
     _id,
-    groups = [],
+    groups,
     createdAt,
     rubbish = [],
   } = userData;
+  
+  console.log(userData.groups)
 
   const handleNavigate = (route) => {
     if (route === "/sign-in") {
@@ -47,6 +49,7 @@ const UserPanel = () => {
 
   const handleLogOut = () => {
     localStorage.removeItem("token");
+    setUser(null)
     navigate("/sign-in");
   };
 
@@ -168,12 +171,7 @@ const UserPanel = () => {
                         </span>{" "}
                         {new Date(createdAt).toLocaleDateString()}
                       </p>
-                      <p>
-                        <span className="font-medium text-gray-600">
-                          User ID:
-                        </span>{" "}
-                        {_id}
-                      </p>
+                     
                     </div>
                   </div>
 
