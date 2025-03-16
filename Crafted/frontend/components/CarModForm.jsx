@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import * as garageService from "../services/garageService";
 import {
   Button,
@@ -10,130 +12,74 @@ import {
   Input,
 } from "@material-tailwind/react";
 
-export default function CarModForm( {carData} ) {
-  
+export default function CarModForm({ carData }) {
+
+  const navigate = useNavigate();
+  // Initialize form state with default values
   const [formData, setFormData] = useState({
     make: "",
     model: "",
     yearOfManufacture: "",
     modifications: {
-      interior: {
-        seats: "",
-        steeringWheel: "",
-      },
-      exterior: {
-        wheels: "",
-        spoilers: "",
-      },
+      interior: { seats: "", steeringWheel: "" },
+      exterior: { wheels: "", spoilers: "" },
       engine: {
-        exhaustSystems: {
-          downpipe: "",
-          midpipe: "",
-          muffler: "",
-        },
+        exhaustSystems: { downpipe: "", midpipe: "", muffler: "" },
         ecuTuning: "",
       },
     },
   });
 
-  // Update formData when props changes
+  // Update formData when carData changes
   useEffect(() => {
     if (carData) {
-      
-      // Destructure props to access nested properties
-      const {
-        make,
-        model,
-        yearOfManufacture,
-        modifications: {
-          interior: { seats, steeringWheel },
-          exterior: { wheels, spoilers },
-          engine: {
-            exhaustSystems: { downpipe, midpipe, muffler },
-            ecuTuning,
-          },
-        },
-      } = carData;
-
-      // Set formData with destructured values
-      setFormData({
-        make: make,
-        model: model,
-        yearOfManufacture: yearOfManufacture,
-        modifications: {
-          interior: {
-            seats: seats,
-            steeringWheel: steeringWheel,
-          },
-          exterior: {
-            wheels: wheels,
-            spoilers: spoilers,
-          },
-          engine: {
-            exhaustSystems: {
-              downpipe: downpipe,
-              midpipe: midpipe,
-              muffler: muffler,
-            },
-            ecuTuning: ecuTuning,
-          },
-        },
-      });
+      setFormData(carData);
     }
   }, [carData]);
 
-  console.log("step 2", formData)
-
-  const handleChange = (e) => {
+ // https://react.dev/reference/react/useState
+  
+ // Fixed handleChange function to handle nested form fields
+  const handleChange = (e, section, field, subField) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleNestedChange = (section, field, value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      modifications: {
-        ...prevData.modifications,
-        [section]: {
-          ...prevData.modifications[section],
-          [field]: value,
-        },
-      },
-    }));
-  };
-
-  const handleExhaustChange = (field, value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      modifications: {
-        ...prevData.modifications,
-        engine: {
-          ...prevData.modifications.engine,
-          exhaustSystems: {
-            ...prevData.modifications.engine.exhaustSystems,
-            [field]: value,
+    
+    setFormData((prevData) => {
+      // updates level 3
+      if (section && field && subField) {
+        return {...prevData, modifications: {...prevData.modifications, [section]: {...prevData.modifications[section], [field]: {...prevData.modifications[section][field], [subField]: value,
+              },
+            },
           },
-        },
-      },
-    }));
+        };
+        //updates level 2
+      } else if (section && field) {
+        return {
+          ...prevData,
+          modifications: {
+            ...prevData.modifications,
+            [section]: {
+              ...prevData.modifications[section],
+              [field]: value,
+            },
+          },
+        };
+      } else {
+        // updates level 1
+        return {
+          ...prevData, [name]: value,
+        };
+      }
+    });
   };
 
+  // Handle form submission
   const handleSubmit = async () => {
-    console.log(carData)
     try {
       const car_id = carData._id;
-      console.log(car_id)
-
-      const carDataToSend = formData
-      console.log(carDataToSend)
-
-      const updateCar = await garageService.editCar(car_id, carDataToSend);
+      const updateCar = await garageService.editCar(car_id, formData);
       console.log("Form submitted:", updateCar);
     } catch (error) {
-      console.log("unable to edit car details");
+      console.log("Unable to edit car details:", error);
     }
   };
 
@@ -147,198 +93,102 @@ export default function CarModForm( {carData} ) {
         </CardHeader>
 
         <CardBody className="flex flex-col gap-6 p-6">
-          {/* Basic Info Section */}
-          <div>
-            <Typography variant="h6" className="mb-4 border-b pb-2">
-              Basic Information
-            </Typography>
+          {/* Basic Information Section */}
+          <FormSection title="Basic Information">
+            <InputField
+              label="Make"
+              name="make"
+              value={formData.make}
+              onChange={handleChange}
+            />
+            <InputField
+              label="Model"
+              name="model"
+              value={formData.model}
+              onChange={handleChange}
+            />
+            <InputField
+              label="Year of Manufacture"
+              name="yearOfManufacture"
+              type="number"
+              value={formData.yearOfManufacture}
+              onChange={handleChange}
+            />
+          </FormSection>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div>
-                <Typography variant="small" className="mb-2">
-                  Make
-                </Typography>
-                <Input
-                  size="lg"
-                  name="make"
-                  value={formData.make}
-                  
-                  onChange={handleChange}
-                  className="w-full"
-                />
-              </div>
+          {/* Interior Modifications Section */}
+          <FormSection title="Interior Modifications">
+            <InputField
+              label="Seats"
+              name="seats"
+              value={formData.modifications.interior.seats}
+              onChange={(e) => handleChange(e, "interior", "seats")}
+            />
+            <InputField
+              label="Steering Wheel"
+              name="steeringWheel"
+              value={formData.modifications.interior.steeringWheel}
+              onChange={(e) => handleChange(e, "interior", "steeringWheel")}
+            />
+          </FormSection>
 
-              <div>
-                <Typography variant="small" className="mb-2">
-                  Model
-                </Typography>
-                <Input
-                  size="lg"
-                  name="model"
-                  value={formData.model}
-                  onChange={handleChange}
-                  className="w-full"
-                />
-              </div>
+          {/* Exterior Modifications Section */}
+          <FormSection title="Exterior Modifications">
+            <InputField
+              label="Wheels"
+              name="wheels"
+              value={formData.modifications.exterior.wheels}
+              onChange={(e) => handleChange(e, "exterior", "wheels")}
+            />
+            <InputField
+              label="Spoilers"
+              name="spoilers"
+              value={formData.modifications.exterior.spoilers}
+              onChange={(e) => handleChange(e, "exterior", "spoilers")}
+            />
+          </FormSection>
 
-              <div>
-                <Typography variant="small" className="mb-2">
-                  Year of Manufacture
-                </Typography>
-                <Input
-                  size="lg"
-                  name="yearOfManufacture"
-                  type="number"
-                  value={formData.yearOfManufacture}
-                  onChange={handleChange}
-                  className="w-full"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Interior Section */}
-          <div>
-            <Typography variant="h6" className="mb-4 border-b pb-2">
-              Interior Modifications
-            </Typography>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <Typography variant="small" className="mb-2">
-                  Seats
-                </Typography>
-                <Input
-                  size="lg"
-                  value={formData.modifications.interior.seats}
-                  onChange={(e) =>
-                    handleNestedChange("interior", "seats", e.target.value)
-                  }
-                  className="w-full"
-                />
-              </div>
-
-              <div>
-                <Typography variant="small" className="mb-2">
-                  Steering Wheel
-                </Typography>
-                <Input
-                  size="lg"
-                  value={formData.modifications.interior.steeringWheel}
-                  onChange={(e) =>
-                    handleNestedChange("interior", "steeringWheel", e.target.value)
-                  }
-                  className="w-full"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Exterior Section */}
-          <div>
-            <Typography variant="h6" className="mb-4 border-b pb-2">
-              Exterior Modifications
-            </Typography>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <Typography variant="small" className="mb-2">
-                  Wheels
-                </Typography>
-                <Input
-                  size="lg"
-                  value={formData.modifications.exterior.wheels}
-                  onChange={(e) =>
-                    handleNestedChange("exterior", "wheels", e.target.value)
-                  }
-                  className="w-full"
-                />
-              </div>
-
-              <div>
-                <Typography variant="small" className="mb-2">
-                  Spoilers
-                </Typography>
-                <Input
-                  size="lg"
-                  value={formData.modifications.exterior.spoilers}
-                  onChange={(e) =>
-                    handleNestedChange("exterior", "spoilers", e.target.value)
-                  }
-                  className="w-full"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Engine Section */}
-          <div>
-            <Typography variant="h6" className="mb-4 border-b pb-2">
-              Engine Modifications
-            </Typography>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <Typography variant="small" className="mb-2">
-                  Downpipe
-                </Typography>
-                <Input
-                  size="lg"
-                  value={formData.modifications.engine.exhaustSystems.downpipe}
-                  onChange={(e) =>
-                    handleExhaustChange("downpipe", e.target.value)
-                  }
-                  className="w-full"
-                />
-              </div>
-
-              <div>
-                <Typography variant="small" className="mb-2">
-                  Midpipe
-                </Typography>
-                <Input
-                  size="lg"
-                  value={formData.modifications.engine.exhaustSystems.midpipe}
-                  onChange={(e) =>
-                    handleExhaustChange("midpipe", e.target.value)
-                  }
-                  className="w-full"
-                />
-              </div>
-
-              <div>
-                <Typography variant="small" className="mb-2">
-                  Muffler
-                </Typography>
-                <Input
-                  size="lg"
-                  value={formData.modifications.engine.exhaustSystems.muffler}
-                  onChange={(e) =>
-                    handleExhaustChange("muffler", e.target.value)
-                  }
-                  className="w-full"
-                />
-              </div>
-
-              <div>
-                <Typography variant="small" className="mb-2">
-                  ECU Tuning
-                </Typography>
-                <Input
-                  size="lg"
-                  value={formData.modifications.engine.ecuTuning}
-                  onChange={(e) =>
-                    handleNestedChange("engine", "ecuTuning", e.target.value)
-                  }
-                  className="w-full"
-                />
-              </div>
-            </div>
-          </div>
+          {/* Engine Modifications Section */}
+          <FormSection title="Engine Modifications">
+            <InputField
+              label="Downpipe"
+              name="downpipe"
+              value={formData.modifications.engine.exhaustSystems.downpipe}
+              onChange={(e) =>
+                handleChange(e, "engine", "exhaustSystems", "downpipe")
+              }
+            />
+            <InputField
+              label="Midpipe"
+              name="midpipe"
+              value={formData.modifications.engine.exhaustSystems.midpipe}
+              onChange={(e) =>
+                handleChange(e, "engine", "exhaustSystems", "midpipe")
+              }
+            />
+            <InputField
+              label="Muffler"
+              name="muffler"
+              value={formData.modifications.engine.exhaustSystems.muffler}
+              onChange={(e) =>
+                handleChange(e, "engine", "exhaustSystems", "muffler")
+              }
+            />
+            <InputField
+              label="ECU Tuning"
+              name="ecuTuning"
+              value={formData.modifications.engine.ecuTuning}
+              onChange={(e) => handleChange(e, "engine", "ecuTuning")}
+            />
+          </FormSection>
         </CardBody>
 
         <CardFooter className="p-6 pt-0 flex justify-end gap-4">
-          <Button variant="outlined" color="red" onClick={() => console.log("Cancel clicked")}>
+          <Button
+            variant="outlined"
+            color="red"
+            onClick={() => navigate("/garage")}
+          >
             Cancel
           </Button>
           <Button variant="outlined" color="green" onClick={handleSubmit}>
@@ -349,3 +199,30 @@ export default function CarModForm( {carData} ) {
     </div>
   );
 }
+
+// Reusable Form Section Component https://stackoverflow.com/questions/65409862/how-to-create-a-reusable-input-field-using-react
+const FormSection = ({ title, children }) => (
+  <div>
+    <Typography variant="h6" className="mb-4 border-b pb-2">
+      {title}
+    </Typography>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">{children}</div>
+  </div>
+);
+
+// Reusable Input Field Component 
+const InputField = ({ label, value, onChange, name, type = "text" }) => (
+  <div>
+    <Typography variant="small" className="mb-2">
+      {label}
+    </Typography>
+    <Input
+      size="lg"
+      name={name}
+      type={type}
+      value={value}
+      onChange={onChange}
+      className="w-full"
+    />
+  </div>
+);

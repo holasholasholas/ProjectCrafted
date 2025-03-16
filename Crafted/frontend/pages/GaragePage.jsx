@@ -36,23 +36,23 @@ const [vehicles, setVehicles] = useState([]);
         
         // mod list doesn't have id in db, should just get from above just nested more
 
-    const modificationsVehicles = data.map((mod) => ({
+    // const modificationsVehicles = data.map((mod) => ({
             
-        id: mod._id,
-        make: mod.make,
-        model: mod.model,
-        yearOfManufacture: mod.yearOfManufacture,
-        seats: mod.modifications.interior.seats,
-        steeringWheel: mod.modifications.interior.steeringWheel,
-        wheels: mod.modifications.exterior.wheels,
-        spoiler: mod.modifications.exterior.spoiler,
-        exhaust: mod.modifications.engine.exhaustSystems,
-        ecu: mod.modifications.engine.ecuTuning
+    //     id: mod._id,
+    //     make: mod.make,
+    //     model: mod.model,
+    //     yearOfManufacture: mod.yearOfManufacture,
+    //     seats: mod.modifications.interior.seats,
+    //     steeringWheel: mod.modifications.interior.steeringWheel,
+    //     wheels: mod.modifications.exterior.wheels,
+    //     spoiler: mod.modifications.exterior.spoiler,
+    //     exhaust: mod.modifications.engine.exhaustSystems,
+    //     ecu: mod.modifications.engine.ecuTuning
 
 
-        }))
+    //     }))
         // console.log(modificationsVehicles)
-        setMods(modificationsVehicles)
+        // setMods(modificationsVehicles)
         
 
       } catch (error) {
