@@ -95,12 +95,12 @@ const LoginComponent = () => {
               <input type="checkbox" className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"/>
               <span className="ml-2 text-sm text-gray-600">Remember me</span>
             </label>
-            <a href="#" className="text-sm text-indigo-600 hover:text-indigo-500">Forgot password?</a>
+            <a href="#" className="text-sm text-teal-600 hover:text-teal-700">Forgot password?</a>
           </div>
 
           <button 
             type="submit" 
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors"
+            className="w-full bg-teal-500 hover:bg-teal-700 text-white font-medium py-2.5 rounded-lg transition-colors"
             disabled={loading}
           >
             {loading ? 'Signing in...' : 'Sign In'}
@@ -109,7 +109,7 @@ const LoginComponent = () => {
 
         <div className="mt-6 text-center text-sm text-gray-600">
           Don't have an account? 
-          <a href="#" className="text-indigo-600 hover:text-indigo-500 font-medium ml-1" onClick={handleSignUpNavigation}>Sign up</a>
+          <a href="#" className="text-teal-600 hover:text-teal-700 font-medium ml-1" onClick={handleSignUpNavigation}>Sign up</a>
         </div>
       </div>
     </div>

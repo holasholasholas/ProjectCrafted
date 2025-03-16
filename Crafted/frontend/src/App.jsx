@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
+import './App.css';
 
 // Components
 import BackgroundVideo from '../components/BackgroundVideo';
@@ -15,7 +16,7 @@ import CreateGroupBox from '../components/CreateGroupBox';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import UserPanelPage from '../pages/UserPanelPage';
-import FriendPage from '../pages/FriendPage';
+// import FriendPage from '../pages/FriendPage';
 import GaragePage from '../pages/GaragePage';
 import SearchPage from '../pages/SearchPage';
 
@@ -59,27 +60,22 @@ function App() {
       <BrowserRouter>
         <div className="App">
           <ToastContainer position="top-right" autoClose={3000} />
-          {/* <NavBar toggleDrawer={() => setOpen(true)} /> */}
-          {/* <SideBar open={open} onClose={() => setOpen(false)} /> */}
-          <BackgroundVideo />
+          
+          {/* <BackgroundVideo /> */}
         
           <Routes>
-            {/* <Route path="/" element={<Home />} /> */}
-            
+            <Route path="/" element={<BackgroundVideo />} />
             <Route path="/sign-in" element={<LoginPage />} />
             <Route path="/sign-up" element={<SignUpPage />} />
-            
-            {/* Protected route */}
-            {/* <Route element={<ProtectedRoute />}> */}
             <Route path="/search" element={<SearchPage searchTerm={searchTerm} setSearchTerm={setSearchTerm} />} />
             <Route path="/userpanel" element={<UserPanelPage />} />
-            <Route path="/friends" element={<FriendPage />}/>
+           
             <Route path="/garage" element={ <GaragePage carData={carData} setCarData={setCarData}  /> } />
             <Route path="/garage/:carId" element={<CarModForm carData={carData} setCarData={setCarData}  />} />
-            {/* </Route>   */}
+           
             
             
-            <Route path="/test3" element={<div>Test 3 Page</div>} />
+            
           </Routes>
         </div>
       </BrowserRouter>

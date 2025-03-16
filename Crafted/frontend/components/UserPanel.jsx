@@ -36,8 +36,8 @@ const UserPanel = () => {
     createdAt,
     rubbish = [],
   } = userData;
-  
-  console.log(userData.groups)
+
+  console.log(userData.groups);
 
   const handleNavigate = (route) => {
     if (route === "/sign-in") {
@@ -49,11 +49,16 @@ const UserPanel = () => {
 
   const handleLogOut = () => {
     localStorage.removeItem("token");
-    setUser(null)
-    navigate("/sign-in");
+    setUser(null);
+    navigate("/");
   };
+  
+  if (!user){
+    navigate('/')
+  }  
 
   return (
+
     <div className="font-poppins antialiased">
       <div className="flex flex-row h-screen w-screen bg-white">
         {/* Sidebar - Left side */}
@@ -171,7 +176,6 @@ const UserPanel = () => {
                         </span>{" "}
                         {new Date(createdAt).toLocaleDateString()}
                       </p>
-                     
                     </div>
                   </div>
 
@@ -218,8 +222,8 @@ const UserPanel = () => {
                   </h2>
                   {groups.length > 0 ? (
                     <ul className="list-disc pl-5">
-                      {groups.map((groupObj, index) => (
-                        <li key={index}>{groupObj.group}</li>
+                      {groups.map((groupNum, index) => (
+                        <li key={index}>{groupNum.group}</li>
                       ))}
                     </ul>
                   ) : (
