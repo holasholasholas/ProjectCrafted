@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 // import UserPanel from "../components/UserPanel";
 import * as garageService from "../services/garageService";
 import  CarModForm  from "../components/CarModForm";
+import CreateFirstVehicleBox from "../components/CreateFirstVehicleBox";
 
 
 const GaragePage = ({ carData, setCarData }) => {
@@ -15,6 +16,7 @@ const [vehicles, setVehicles] = useState([]);
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
   const [mods, setMods] = useState([]);
+  const [toggleCreateCarForm, setToggleCreateCarForm] = useState(false);
   
 
   useEffect(() => {
@@ -36,23 +38,23 @@ const [vehicles, setVehicles] = useState([]);
         
         // mod list doesn't have id in db, should just get from above just nested more
 
-    // const modificationsVehicles = data.map((mod) => ({
+    const modificationsVehicles = data.map((mod) => ({
             
-    //     id: mod._id,
-    //     make: mod.make,
-    //     model: mod.model,
-    //     yearOfManufacture: mod.yearOfManufacture,
-    //     seats: mod.modifications.interior.seats,
-    //     steeringWheel: mod.modifications.interior.steeringWheel,
-    //     wheels: mod.modifications.exterior.wheels,
-    //     spoiler: mod.modifications.exterior.spoiler,
-    //     exhaust: mod.modifications.engine.exhaustSystems,
-    //     ecu: mod.modifications.engine.ecuTuning
+        id: mod._id,
+        make: mod.make,
+        model: mod.model,
+        yearOfManufacture: mod.yearOfManufacture,
+        seats: mod.modifications.interior.seats,
+        steeringWheel: mod.modifications.interior.steeringWheel,
+        wheels: mod.modifications.exterior.wheels,
+        spoiler: mod.modifications.exterior.spoiler,
+        exhaust: mod.modifications.engine.exhaustSystems,
+        ecu: mod.modifications.engine.ecuTuning
 
 
-    //     }))
+        }))
         // console.log(modificationsVehicles)
-        // setMods(modificationsVehicles)
+        setMods(modificationsVehicles)
         
 
       } catch (error) {
@@ -62,18 +64,8 @@ const [vehicles, setVehicles] = useState([]);
         setLoading(false);
       }
     }
-
-   
-
-    
     fetchVehicles();
-  }, []);
-
- 
-   
-  
-
-// TO DO SERVICES 
+  }, [toggleCreateCarForm]);
 
 
 const handleView = async (car_id) => {
@@ -87,6 +79,11 @@ const handleView = async (car_id) => {
     console.log("unable to view car mod details")
   }
 };
+
+const handleCreateCar = () =>{
+  setToggleCreateCarForm(true)
+}
+  
 
   const handleDelete = async (car_id) => {
     try {
@@ -117,11 +114,12 @@ const handleView = async (car_id) => {
       ) : vehicles.length === 0 ? (
         <div className="text-center py-8">
           <p className="text-gray-600">No vehicles found in your garage.</p>
-          <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" onClick={handleCreateCar}>
             Add Your First Vehicle
           </button>
         </div>
-      ) : (
+      ) :  (
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
           {vehicles.map((vehicle) => (
             <VehicleCard
@@ -129,25 +127,22 @@ const handleView = async (car_id) => {
               vehicle={vehicle}
               onView={() => handleView(vehicle.id)}
               onDelete={() => handleDelete(vehicle.id)}
-
-            />
+              />
           ))}
          <div>
-  
-    {/* <CarModForm
-     
-       
-      
-      open={open}
-      setOpen={setOpen} 
-      carData={carData}
-    /> */}
+  <div>
+  <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" onClick={handleCreateCar}>
+            Add Vehicle
+          </button>
+  </div>
   
 </div>
               
           
         </div>
       )}
+      {toggleCreateCarForm && (<CreateFirstVehicleBox onClose={() => setToggleCreateCarForm(false)}/>
+)}
     </div>
   );
 };

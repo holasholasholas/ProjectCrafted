@@ -78,6 +78,7 @@ export default function CarModForm({ carData }) {
       const car_id = carData._id;
       const updateCar = await garageService.editCar(car_id, formData);
       console.log("Form submitted:", updateCar);
+      navigate('/garage')
     } catch (error) {
       console.log("Unable to edit car details:", error);
     }

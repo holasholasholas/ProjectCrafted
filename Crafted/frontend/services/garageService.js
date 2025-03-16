@@ -27,6 +27,19 @@ async function getCarDetails(car_id) {
     }
 }
 
+// create new car
+async function createCar(formInput) {
+    try {
+        const response = await axios.post(`${BASE_URL}`,formInput, config) 
+            console.log(response)
+            return response.data;
+        
+    } catch (error) {
+        console.error("Error fetching car details:", error);
+        throw error;
+    }
+}
+
 async function deleteCar(car_id) {
     try {
         const response = await axios.delete(`${BASE_URL}/${car_id}`, config)
@@ -70,4 +83,4 @@ async function editCar(car_id, carDataToSend) {
 
 
 
-export { showCar, deleteCar, getCarDetails, editCar };
+export { showCar, deleteCar, getCarDetails, editCar, createCar };
