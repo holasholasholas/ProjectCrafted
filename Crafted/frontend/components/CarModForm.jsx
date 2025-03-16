@@ -2,6 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as garageService from "../services/garageService";
+import { usePDF } from 'react-to-pdf'
 import {
   Button,
   Card,
@@ -15,6 +16,14 @@ import {
 export default function CarModForm({ carData }) {
 
   const navigate = useNavigate();
+
+
+  
+    const { toPDF, targetRef } = usePDF({
+      filename: 'CarMods.pdf',
+    });
+
+  
   // Initialize form state with default values
   const [formData, setFormData] = useState({
     make: "",
@@ -85,6 +94,33 @@ export default function CarModForm({ carData }) {
   };
 
   return (
+    <>
+    
+   <div style={{ display: 'none' }} ref={targetRef}>
+  <h2>Car Modifications</h2>
+  <p>Car Make: {formData.make}</p>
+  <p>Car Model: {formData.model}</p>
+  <p>Year of Manufacture: {formData.yearOfManufacture}</p>
+  
+  <h3>Interior Modifications</h3>
+  <p>Seats: {formData.modifications.interior.seats}</p>
+  <p>Steering Wheel: {formData.modifications.interior.steeringWheel}</p>
+  
+  <h3>Exterior Modifications</h3>
+  <p>Wheels: {formData.modifications.exterior.wheels}</p>
+  <p>Spoilers: {formData.modifications.exterior.spoilers}</p>
+  
+  <h3>Engine Modifications</h3>
+  <p>Exhaust Systems:</p>
+  <ul>
+    <li>Downpipe: {formData.modifications.engine.exhaustSystems.downpipe}</li>
+    <li>Midpipe: {formData.modifications.engine.exhaustSystems.midpipe}</li>
+    <li>Muffler: {formData.modifications.engine.exhaustSystems.muffler}</li>
+  </ul>
+  <p>ECU Tuning: {formData.modifications.engine.ecuTuning}</p>
+</div>
+
+
     <div className="container mx-auto px-4 py-8">
       <Card className="mx-auto w-full max-w-5xl">
         <CardHeader color="blue" className="mb-4 p-4">
@@ -195,9 +231,13 @@ export default function CarModForm({ carData }) {
           <Button variant="outlined" color="green" onClick={handleSubmit}>
             Save Changes
           </Button>
+          <Button variant="outlined" color="blue" onClick={toPDF}>
+            Export to PDF
+          </Button>
         </CardFooter>
       </Card>
     </div>
+    </>
   );
 }
 
