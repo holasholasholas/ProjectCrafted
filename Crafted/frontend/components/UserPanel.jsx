@@ -2,21 +2,26 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../src/context/UserContext";
 import * as userPanelService from "../services/userPanelService";
+import CreateGroupBox from "./CreateGroupBox";
+
 
 const UserPanel = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [userDetails, setUserDetails] = useState({});
+  const [toggleCreateGroup, setToggleCreateGroup] = useState(false)
+  
 
   useEffect(() => {
-    async function getUser() {
+    async function showCurrentUser() {
       const userData = await userPanelService.showCurrentUser(user._id);
+      console.log(userData)
       setUserDetails(userData);
     }
-    getUser();
+    showCurrentUser();
   }, [user]);
 
-  // Safely extract user data
+ 
   const userData = userDetails.user || {};
   const {
     name,
@@ -101,6 +106,7 @@ const UserPanel = () => {
               ))}
             </div>
           </div>
+          
         </div>
 
         {/* Main Content - Right side */}
@@ -148,7 +154,7 @@ const UserPanel = () => {
                       </p>
                     </div>
                   </div>
-
+                  
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <h2 className="text-lg font-semibold mb-3 text-gray-700">
                       Vehicle Information
@@ -200,16 +206,23 @@ const UserPanel = () => {
                     <p className="text-gray-500">No groups joined yet</p>
                   )}
                 </div>
-
+                {toggleCreateGroup && (
+      <CreateGroupBox 
+        onClose={() => setToggleCreateGroup(false)}
+        userId={_id}
+        
+      />
+    )}
                 <div className="flex justify-end mt-4">
                   <button
                     className="bg-teal-500 text-white px-4 py-2 rounded-md hover:bg-teal-600 transition duration-200"
-                    onClick={() => navigate("/garage")}
+                    onClick={() => setToggleCreateGroup(true)}
                   >
                     Create New Group
                   </button>
                 </div>
               </div>
+              
             ) : (
               <div className="flex justify-center items-center h-40">
                 <p className="text-gray-500">Loading user details...</p>

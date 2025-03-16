@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // Components
 import BackgroundVideo from '../components/BackgroundVideo';
 import CarModForm from '../components/CarModForm'
+import CreateGroupBox from '../components/CreateGroupBox';
 // import NavBar from '../components/NavBar';
 // import SideBar from '../components/SideBar';
 
@@ -27,6 +28,7 @@ import { UserProvider } from './context/UserContext';
 function App() {
 
   const [searchTerm, setSearchTerm] = useState('');
+  
 
   const [carData, setCarData] = useState({
       make: "",
