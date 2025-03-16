@@ -123,7 +123,7 @@ export default function CarModForm({ carData }) {
 
     <div className="container mx-auto px-4 py-8">
       <Card className="mx-auto w-full max-w-5xl">
-        <CardHeader color="blue" className="mb-4 p-4">
+        <CardHeader color="white" className="mb-4 p-4">
           <Typography variant="h5" color="black">
             Car Modification Form
           </Typography>
@@ -222,16 +222,16 @@ export default function CarModForm({ carData }) {
 
         <CardFooter className="p-6 pt-0 flex justify-end gap-4">
           <Button
-            variant="outlined"
-            color="red"
+            variant="solid"
+            color="blue"
             onClick={() => navigate("/garage")}
           >
             Cancel
           </Button>
-          <Button variant="outlined" color="green" onClick={handleSubmit}>
+          <Button variant="solid" color="green" onClick={handleSubmit}>
             Save Changes
           </Button>
-          <Button variant="outlined" color="blue" onClick={toPDF}>
+          <Button variant="solid" color="teal" onClick={toPDF}>
             Export to PDF
           </Button>
         </CardFooter>
