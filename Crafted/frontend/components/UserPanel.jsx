@@ -5,29 +5,45 @@ import * as userPanelService from "../services/userPanelService";
 import CreateGroupBox from "./CreateGroupBox";
 
 const UserPanel = () => {
-  const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
   const [userDetails, setUserDetails] = useState({});
   const [toggleCreateGroup, setToggleCreateGroup] = useState(false);
   const [toggleUserType, setToggleUserType] = useState("User");
-
+  
   useEffect(() => {
-    async function showCurrentUser() {
-      const userData = await userPanelService.showCurrentUser(user._id);
-      console.log(userData);
-      setUserDetails(userData);
-
-      const groups = userData.user.groups;
-
-      setToggleUserType(groups.length > 0 ? "Owner" : "User");
+    
+    if (user && user._id) {
+      async function showCurrentUser() {
+        try {
+          
+          const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+          
+          if (!token) {
+            console.log("Token not yet available, waiting...");
+            return; 
+          }
+          
+          const userData = await userPanelService.showCurrentUser(user._id);
+          setUserDetails(userData);
+          
+          const groups = userData.user?.groups || [];
+          setToggleUserType(groups.length > 0 ? "Owner" : "User");
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        } 
+      }
+      
+      showCurrentUser();
+    } else {
+      console.log("User data not fully loaded yet");
     }
-    showCurrentUser();
-  }, [user, toggleCreateGroup, toggleUserType]);
-
+  }, [user, toggleCreateGroup]);
+  
   // runtime error prevention
-
+  const navigate = useNavigate();
+  
   const userData = userDetails.user || {};
-
+  
   const {
     name,
     email,
@@ -37,7 +53,7 @@ const UserPanel = () => {
     groups = [],
     createdAt,
   } = userData;
-
+  
   const handleNavigate = (route) => {
     if (route === "/sign-in") {
       handleLogOut();
@@ -83,7 +99,7 @@ const UserPanel = () => {
               />
               <div>
                 <h2 className="font-medium text-xs md:text-sm text-center text-teal-500">
-                  {user.username}
+                  {user?.username}
                 </h2>
                 <p className="text-xs text-gray-500 text-center">
                   {toggleUserType}
