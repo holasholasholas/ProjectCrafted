@@ -16,13 +16,15 @@ const UserPanel = () => {
       const userData = await userPanelService.showCurrentUser(user._id);
       console.log(userData);
       setUserDetails(userData);
+
       const groups = userData.user.groups;
-      console.log(groups);
 
       setToggleUserType(groups.length > 0 ? "Owner" : "User");
     }
     showCurrentUser();
   }, [user, toggleCreateGroup, toggleUserType]);
+
+  // runtime error prevention
 
   const userData = userDetails.user || {};
 
@@ -30,14 +32,11 @@ const UserPanel = () => {
     name,
     email,
     username,
-    vehicles,
+    vehicles = [],
     _id,
-    groups,
+    groups = [],
     createdAt,
-    rubbish = [],
   } = userData;
-
-  console.log(userData.groups);
 
   const handleNavigate = (route) => {
     if (route === "/sign-in") {
@@ -52,13 +51,13 @@ const UserPanel = () => {
     setUser(null);
     navigate("/");
   };
-  
-  if (!user){
-    navigate('/')
-  }  
+
+  // not working as intended, check this
+  if (!user) {
+    navigate("/");
+  }
 
   return (
-
     <div className="font-poppins antialiased">
       <div className="flex flex-row h-screen w-screen bg-white">
         {/* Sidebar - Left side */}
@@ -71,7 +70,7 @@ const UserPanel = () => {
               D<span className="text-teal-600">.</span>
             </h1>
             <h1 className="hidden md:block font-bold text-sm md:text-xl text-center">
-              {user.username}
+              {name}
               <span className="text-teal-600">.</span>
             </h1>
 
@@ -146,6 +145,7 @@ const UserPanel = () => {
               User Profile
             </h1>
 
+            {/* error handling if userData doesn't have anything */}
             {Object.keys(userData).length > 0 ? (
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -186,15 +186,16 @@ const UserPanel = () => {
                     <p className="font-medium text-gray-600">
                       Total Vehicles: {vehicles.length}
                     </p>
-                    {vehicles.length > 0 && (
+
+                    {vehicles.length > 0 ? (
                       <div className="mt-2">
                         <h3 className="text-sm font-medium text-gray-500 mb-1">
-                          Vehicle IDs:
+                          Vehicles:
                         </h3>
                         <ul className="text-sm list-disc pl-5 space-y-1">
-                          {vehicles.slice(0, 5).map((vehicleId, index) => (
+                          {vehicles.slice(0, 5).map((vehicle, index) => (
                             <li key={index} className="break-all">
-                              {vehicleId}
+                              {`${vehicle.make} ${vehicle.model}`}
                             </li>
                           ))}
                           {vehicles.length > 5 && (
@@ -203,6 +204,7 @@ const UserPanel = () => {
                             </li>
                           )}
                         </ul>
+
                         <div className="mt-3">
                           <button
                             onClick={() => navigate("/garage")}
@@ -211,6 +213,12 @@ const UserPanel = () => {
                             View in Garage
                           </button>
                         </div>
+                      </div>
+                    ) : (
+                      <div className="mt-2">
+                        <p className="text-sm text-gray-500">
+                          Head to garage to create your vehicle
+                        </p>
                       </div>
                     )}
                   </div>
@@ -223,7 +231,7 @@ const UserPanel = () => {
                   {groups.length > 0 ? (
                     <ul className="list-disc pl-5">
                       {groups.map((groupNum, index) => (
-                        <li key={index}>{groupNum.group}</li>
+                        <li key={index}>{groupNum.group.name}</li>
                       ))}
                     </ul>
                   ) : (
@@ -247,7 +255,9 @@ const UserPanel = () => {
               </div>
             ) : (
               <div className="flex justify-center items-center h-40">
-                <p className="text-gray-500">Loading user details...</p>
+                <p className="text-gray-500">
+                  Error loading user details... please wait or sign in again.
+                </p>
               </div>
             )}
           </div>

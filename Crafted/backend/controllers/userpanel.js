@@ -12,7 +12,11 @@ const router = express.Router();
 router.get("/", verifyToken, async (req, res) => {
   try {
       const userId = req.user._id
-      const user = await User.findById(userId).populate('groups');
+      const user = await User.findById(userId).populate({
+        path: 'groups.group',
+        select: 'name description isPublic created' 
+        
+      }).populate('vehicles');
       if (!user) {
         return res.status(401).json({ err: 'Invalid credentials.' });
       }
