@@ -15,4 +15,30 @@ async function createGroup (formInput) {
     }
 }
 
-export { createGroup };
+async function fetchGroup () {
+    try {
+        const response = await axios.get(`${BASE_URL}`, config)
+            console.log(response)
+            return response.data
+            
+    } catch (error) {
+        console.error("Error creating group", error);
+        throw error;
+    }
+}
+
+async function deleteGroup (group_id) {
+    try{
+        const response = await axios.delete(`${BASE_URL}/${group_id}`, config)
+        console.log(response)
+        return response.data
+        
+} catch (error) {
+    console.error("Error creating group", error);
+    throw error;
+}
+}
+    
+
+
+export { createGroup, fetchGroup, deleteGroup };
