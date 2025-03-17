@@ -1,19 +1,26 @@
-import { useState } from 'react';
+// **BUG** Search page if left with inputs in field and toggle to another search term will crash 
+
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as userService from "../services/userService";
 import ViewCarInGarage from './ViewCarInGarage';
 
 
 function SearchPage() {
-
+  
   const navigate = useNavigate();
-
+  
   const [searchTerm, setSearchTerm] = useState('');
   const [searchType, setSearchType] = useState('users');
   const [results, setResults] = useState([]);
   const [searchResults, setSearchResults] = useState('Search By Users or Cars')
   const [isLoading, setIsLoading] = useState(false);
   const [toggleViewCar, setToggleViewCar] = useState(false);
+  
+    useEffect(() => {
+      setResults([]);
+      setSearchResults('Search By Users or Cars');
+    }, [searchType]);
 
   const handleSearch = async () => {
     setIsLoading(true);
@@ -122,7 +129,7 @@ console.log(results)
                 <h3 className="font-bold text-lg">{user.username}</h3>
                 <p className="text-gray-600">Name: {user.name}</p>
                 
-                <p className="text-gray-600">Cars: {user.vehicles.map(car => `${car.make} - ${car.model}`).join(' ')} 
+                <p className="text-gray-600">Cars: {user.vehicles?.map(car => `${car.make} - ${car.model}`).join(' ')} 
                 <button className="bg-blue-500 text-white text-sm py-1 px-3 rounded hover:bg-blue-600 transition duration-300 absolute bottom-2 right-2">
       Add to Group
     </button>
@@ -133,8 +140,8 @@ console.log(results)
             {searchType === 'cars' && results.map(car => (
               <li key={car.id} className="border p-4 rounded shadow-sm bg-white relative">
                 <h3 className="font-bold text-lg"> {car.make} {car.model} </h3>
-                <p className="text-gray-600">Name: {car.owner.name} </p>
-                <p className="text-gray-600">Username: {car.owner.username} </p>
+                <p className="text-gray-600">Name: {car.owner?.name} </p>
+                <p className="text-gray-600">Username: {car.owner?.username} </p>
                 <button className="bg-teal-500 text-white text-sm py-1 px-3 rounded hover:bg-teal-700 transition duration-100 absolute bottom-3 right-2" 
                 onClick={() => setToggleViewCar(true)}>
       View Car
@@ -152,3 +159,4 @@ console.log(results)
 }
 
 export default SearchPage;
+

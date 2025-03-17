@@ -1,4 +1,4 @@
-// ExampleComponent.jsx
+
 import React from "react";
 import UserSideBar from "../components/UserSideBar";
 // import { UserContext } from "../src/context/UserContext";
