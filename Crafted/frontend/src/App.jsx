@@ -16,15 +16,14 @@ import CreateGroupBox from '../components/CreateGroupBox';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import UserPanelPage from '../pages/UserPanelPage';
-// import FriendPage from '../pages/FriendPage';
+import GroupPage from '../pages/GroupPage';
 import GaragePage from '../pages/GaragePage';
 import SearchPage from '../pages/SearchPage';
 
 // Auth Context
 import { UserProvider } from './context/UserContext'; 
 
-// Protected Route Component
-// import ProtectedRoute from '../components/routing/ProtectedRoute'; 
+
 
 function App() {
 
@@ -69,7 +68,7 @@ function App() {
             <Route path="/sign-up" element={<SignUpPage />} />
             <Route path="/search" element={<SearchPage searchTerm={searchTerm} setSearchTerm={setSearchTerm} />} />
             <Route path="/userpanel" element={<UserPanelPage />} />
-           
+            <Route path="/group" element={<GroupPage />} />
             <Route path="/garage" element={ <GaragePage carData={carData} setCarData={setCarData}  /> } />
             <Route path="/garage/:carId" element={<CarModForm carData={carData} setCarData={setCarData}  />} />
            

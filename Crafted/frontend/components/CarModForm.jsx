@@ -16,13 +16,6 @@ import {
 export default function CarModForm({ carData }) {
 
   const navigate = useNavigate();
-
-
-  
-    const { toPDF, targetRef } = usePDF({
-      filename: 'CarMods.pdf',
-    });
-
   
   // Initialize form state with default values
   const [formData, setFormData] = useState({
@@ -38,6 +31,7 @@ export default function CarModForm({ carData }) {
       },
     },
   });
+  
 
   // Update formData when carData changes
   useEffect(() => {
@@ -93,10 +87,14 @@ export default function CarModForm({ carData }) {
     }
   };
 
+  const { toPDF, targetRef } = usePDF({
+    filename: 'CarMods.pdf'
+  });
+
   return (
     <>
     
-   <div style={{ display: 'none' }} ref={targetRef}>
+   <div style={{ position: 'absolute', left: '-9999px' }} ref={targetRef}>
   <h2>Car Modifications</h2>
   <p>Car Make: {formData.make}</p>
   <p>Car Model: {formData.model}</p>
@@ -223,12 +221,12 @@ export default function CarModForm({ carData }) {
         <CardFooter className="p-6 pt-0 flex justify-end gap-4">
           <Button
             variant="solid"
-            color="blue"
+            color="teal"
             onClick={() => navigate("/garage")}
           >
             Cancel
           </Button>
-          <Button variant="solid" color="green" onClick={handleSubmit}>
+          <Button variant="solid" color="teal" onClick={handleSubmit}>
             Save Changes
           </Button>
           <Button variant="solid" color="teal" onClick={toPDF}>
