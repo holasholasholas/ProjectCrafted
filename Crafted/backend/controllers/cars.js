@@ -45,31 +45,6 @@ router.get("/", verifyToken, async (req, res) => {
     }
   });
 
-  
-
-  // UPDATE: update a car's information
-// router.put("/:car_id", verifyToken, async (req, res) => {
-//   try {
-//     const car_id = req.params.car_id;
-    
-//     // Find the car first to verify ownership
-//     const car = await Vehicle.findById(car_id);
-    
-//     if (!car) {
-//       return res.status(404).json({ error: "Car not found" });
-//     }
-    
-//     const updatedCar = await Vehicle.findByIdAndUpdate(
-//       car_id,
-//       req.body,
-//       { new: true }
-//     );
-    
-//     res.status(200).json(updatedCar);
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// });
 
   // Find specific car details and modlist 
   router.get("/:car_id", verifyToken, async (req, res) => {
@@ -115,11 +90,13 @@ router.get("/", verifyToken, async (req, res) => {
   router.put("/:car_id/", verifyToken, async (req, res) => {
     try{
         const car_id = req.params.car_id;
-        const updatedModifications = req.body.modifications;
         
-        const car = await Vehicle.findById(car_id);
-        car.modifications = updatedModifications;
-        await car.save();
+        
+        const car = await Vehicle.findByIdAndUpdate(
+          car_id,
+          req.body
+        );
+        
         
         res.status(200).json(car);
       } catch (err) {

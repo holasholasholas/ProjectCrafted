@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as garageService from "../services/garageService";
@@ -67,7 +66,7 @@ export default function CarModForm({ carData }) {
           },
         };
       } else {
-        // updates level 1
+        console.log(`Updating ${name} with value ${value}`); // updates level 1
         return {
           ...prevData, [name]: value,
         };
@@ -75,10 +74,13 @@ export default function CarModForm({ carData }) {
     });
   };
 
+  
   // Handle form submission
   const handleSubmit = async () => {
     try {
       const car_id = carData._id;
+      console.log(formData)
+      
       const updateCar = await garageService.editCar(car_id, formData);
       console.log("Form submitted:", updateCar);
       navigate('/garage')
@@ -134,20 +136,20 @@ export default function CarModForm({ carData }) {
               label="Make"
               name="make"
               value={formData.make}
-              onChange={handleChange}
+              onChange={(e) => handleChange(e)}
             />
             <InputField
               label="Model"
               name="model"
               value={formData.model}
-              onChange={handleChange}
+              onChange={(e) => handleChange(e)}
             />
             <InputField
               label="Year of Manufacture"
               name="yearOfManufacture"
               type="number"
               value={formData.yearOfManufacture}
-              onChange={handleChange}
+              onChange={(e) => handleChange(e)}
             />
           </FormSection>
 

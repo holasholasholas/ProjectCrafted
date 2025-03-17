@@ -7,9 +7,11 @@ import ViewCarInGarage from './ViewCarInGarage';
 function SearchPage() {
 
   const navigate = useNavigate();
+
   const [searchTerm, setSearchTerm] = useState('');
   const [searchType, setSearchType] = useState('users');
   const [results, setResults] = useState([]);
+  const [searchResults, setSearchResults] = useState('Search By Users or Cars')
   const [isLoading, setIsLoading] = useState(false);
   const [toggleViewCar, setToggleViewCar] = useState(false);
 
@@ -45,6 +47,7 @@ function SearchPage() {
       console.error("Search failed:", error);
       
     } finally {
+      setSearchResults('')
       setIsLoading(false);
     }
   };
@@ -89,7 +92,7 @@ console.log(results)
           <button 
             type="submit" 
             disabled={isLoading}
-            className="bg-blue-500 text-white px-6 py-2 rounded-r"
+            className="bg-teal-500 text-white px-6 py-2 m- rounded-r"
           >
             {isLoading ? 'Searching...' : 'Search'}
           </button>
@@ -100,7 +103,7 @@ console.log(results)
         <h2 className="text-xl font-semibold mb-4">Results</h2>
         
         {results.length === 0 ? (
-          <p className="text-gray-500">No results found. Try a different search.</p>
+          <p className="text-gray-500">{searchResults}</p>
         ) : (
           <ul className="space-y-4">
             {searchType === 'users' && results.map(user => (
