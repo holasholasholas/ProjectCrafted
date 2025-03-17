@@ -29,7 +29,12 @@ function SearchPage() {
           user.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setResults(filteredUsers);
-        console.log(filteredUsers)
+        
+        if (filteredUsers.length === 0) {
+          setSearchResults("No users found. Try a different search term.");
+        } else {
+          setSearchResults('');
+        }
 
       } else if (searchType === 'cars') {
 
@@ -40,6 +45,12 @@ function SearchPage() {
           
         );
         setResults(filteredCars);
+
+        if (filteredCars.length === 0) {
+          setSearchResults("No cars found. Try a different search term.");
+        } else {
+          setSearchResults('');
+        }
         console.log(filteredCars);
       } 
       
@@ -47,7 +58,6 @@ function SearchPage() {
       console.error("Search failed:", error);
       
     } finally {
-      setSearchResults('')
       setIsLoading(false);
     }
   };
@@ -55,6 +65,7 @@ function SearchPage() {
 //flowbite.com/docs/forms/search-input/
 
 console.log(results)
+
   return (
     <div className="min-h-screen bg-white">
        {toggleViewCar && <ViewCarInGarage 
