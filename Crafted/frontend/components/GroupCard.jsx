@@ -1,4 +1,15 @@
-const GroupCard = ({ group, onView, onDelete }) => {
+const GroupCard = ({ group, onView, onDelete, handleOnView }) => {
+
+  const handleView = async (car_id) => {
+    try {
+      const carData = await garageService.getCarDetails(car_id);
+      setCarData(carData);
+      navigate(`/garage/${car_id}`);
+    } catch (error) {
+      console.log("unable to view car mod details");
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
       <div className="h-48 bg-gray-200 flex items-center justify-center">
@@ -15,11 +26,24 @@ const GroupCard = ({ group, onView, onDelete }) => {
               onClick={() => onDelete(group.id)}
               className="flex items-center text-red-600 hover:text-red-800 font-medium"
             >
+              
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
               </svg>
               Delete
             </button>
+            
+            <button
+              onClick={handleView}
+              className="flex items-center text-blue-600 hover:text-blue-800 font-medium"
+            >
+              
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+              View Details
+            </button>
+
           </div>
         </div>
       </div>

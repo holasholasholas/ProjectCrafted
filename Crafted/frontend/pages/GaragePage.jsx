@@ -51,15 +51,7 @@ const GaragePage = ({ carData, setCarData }) => {
     fetchVehicles();
   }, [toggleCreateCarForm]);
 
-  const handleView = async (car_id) => {
-    try {
-      const carData = await garageService.getCarDetails(car_id);
-      setCarData(carData);
-      navigate(`/garage/${car_id}`);
-    } catch (error) {
-      console.log("unable to view car mod details");
-    }
-  };
+  
 
   const handleCreateCar = () => {
     setToggleCreateCarForm(true);

@@ -39,17 +39,17 @@ async function deleteGroup (group_id) {
 }
 }
 
-// async function getUserToGroup (userToBeAdded) {
+async function getUserToGroup (userToBeAdded) {
 
-//     try{
-//         const response = await axios.post(`${BASE_URL}`, userToBeAdded, config) 
-//         return response.data  
+    try{
+        const response = await axios.post(`${BASE_URL}`, userToBeAdded, config) 
+        return response.data  
     
-// } catch (error) {
-//     console.error("Error creating group", error);
-//     throw error;
-// }
-// }
+} catch (error) {
+    console.error("Error creating group", error);
+    throw error;
+}
+}
 
-export { createGroup, fetchGroup, deleteGroup  };
+export { createGroup, fetchGroup, deleteGroup, getUserToGroup  };
 

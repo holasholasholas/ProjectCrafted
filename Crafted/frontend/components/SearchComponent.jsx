@@ -17,26 +17,23 @@ function SearchPage() {
   const [searchResults, setSearchResults] = useState('Search By Users or Cars')
   const [isLoading, setIsLoading] = useState(false);
   const [toggleViewCar, setToggleViewCar] = useState(false);
-  const [userGroups, setUserGroups] = useState('')
+  // const [userGroups, setUserGroups] = useState('')
   
 
 
-  useEffect(() => {
-    const fetchGroups = async () => {
-      try {
-        const userGroups = await groupService.getUserGroups();
-        setGroups(userGroups);
+  // useEffect(() => {
+  //   const fetchGroups = async () => {
+  //     try {
+  //       const userGroups = await groupService.getUserGroups();
+  //       setUserGroups(userGroups);
         
-        if (userGroups.length > 0) {
-          setActiveGroupId(userGroups[0]._id);
-        }
-      } catch (error) {
-        console.error("Failed to fetch groups:", error);
-      }
-    };
+  //     } catch (error) {
+  //       console.error("Failed to fetch groups:", error);
+  //     }
+  //   };
     
-    fetchGroups();
-  }, []);
+  //   fetchGroups();
+  // }, []);
 
   const handleSearch = async () => {
     setIsLoading(true);
