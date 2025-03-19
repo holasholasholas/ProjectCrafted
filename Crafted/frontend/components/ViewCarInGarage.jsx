@@ -15,8 +15,7 @@ const ViewCarInGarage = ({ onClose, results }) => {
     }
   });
 
-  useEffect(() => {
-    
+  useEffect(() => {    
     if (results) {
 
       const carData = results[0]; // 0 in console.log

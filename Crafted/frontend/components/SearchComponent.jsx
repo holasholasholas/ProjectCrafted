@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as userService from "../services/userService";
+import * as groupService from "../services/groupService";
 import ViewCarInGarage from './ViewCarInGarage';
 
 
@@ -69,7 +70,11 @@ function SearchPage() {
     }
   };
 
-//flowbite.com/docs/forms/search-input/
+// const handleAddUserToGroup = async () => {
+//   try {
+//     const addUser = await groupService.getUserToGroup()
+//   }
+// }
 
 console.log(results)
 

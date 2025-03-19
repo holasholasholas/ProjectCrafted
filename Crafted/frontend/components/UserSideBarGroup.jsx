@@ -16,6 +16,7 @@ const UserSidebarGroup = () => {
       setUserDetails(userData);
     
       const groups = userData.user.groups;
+      console.log(groups)
         // setGroupDetails(groups)
       setToggleUserType(groups.length > 0 ? "Owner" : "User");
     }
