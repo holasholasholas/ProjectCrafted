@@ -1,55 +1,67 @@
 import axios from "axios";
 
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/group`;
-const config = {headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }};
+const config = {
+  headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+};
 
-async function createGroup (formInput) {
-    try {
-        const response = await axios.post(`${BASE_URL}`, formInput, config)
-            console.log(response)
-            return response.data
-            
-    } catch (error) {
-        console.error("Error creating group", error);
-        throw error;
-    }
-}
-
-async function fetchGroup () {
-    try {
-        const response = await axios.get(`${BASE_URL}`, config)
-            console.log(response)
-            return response.data
-            
-    } catch (error) {
-        console.error("Error creating group", error);
-        throw error;
-    }
-}
-
-async function deleteGroup (group_id) {
-    try{
-        const response = await axios.delete(`${BASE_URL}/${group_id}`, config)
-        console.log(response)
-        return response.data
-        
-} catch (error) {
-    console.error("Error creating group", error);
+// Get all groups for logged in user
+async function getUserGroups() {
+  try {
+    const response = await axios.get(BASE_URL, config);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user groups:", error);
     throw error;
-}
+  }
 }
 
-async function getUserToGroup (userToBeAdded) {
-
-    try{
-        const response = await axios.post(`${BASE_URL}`, userToBeAdded, config) 
-        return response.data  
-    
-} catch (error) {
-    console.error("Error creating group", error);
+// Create a new group
+async function createGroup(groupData) {
+  try {
+    const response = await axios.post(BASE_URL, groupData, config);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating group:", error);
     throw error;
-}
+  }
 }
 
-export { createGroup, fetchGroup, deleteGroup, getUserToGroup  };
+// Add user to group
+async function getUserToGroup(userData) {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/${userData.group_id}`,
+      { user_id: userData.user_id },
+      config
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error adding user to group:", error);
+    throw error;
+  }
+}
 
+// Delete group
+async function deleteGroup(groupId) {
+  try {
+    const response = await axios.delete(`${BASE_URL}/${groupId}`, config);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting group:", error);
+    throw error;
+  }
+}
+
+// Get specific group details
+async function getGroupDetails(groupId) {
+  try {
+    const response = await axios.get(`${BASE_URL}/${groupId}`, config);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching group details:", error);
+    throw error;
+  }
+}
+
+export { getUserGroups, createGroup, getUserToGroup, deleteGroup, getGroupDetails };
