@@ -31,9 +31,9 @@ const GroupPage = () => {
     }
   };
 
-  const handleAddUserToGroup = async (userToBeAdd) => {
+  const handleAddUserToGroup = async (userToBeAdded) => {
     try {
-      await groupService.getUserToGroup(userToBeAdd);
+      await groupService.getUserToGroup(userToBeAdded);
     } catch (error) {
       console.error("Failed to add user to group", error);
     }
@@ -62,11 +62,12 @@ const GroupPage = () => {
                 group={group}
                 onDelete={() => handleDeleteGroup(group.group)}
                 onView={() => handleViewGroupDetails(group)}
+                onAdd={() => handleAddUserToGroup()}
               />
             ))}
           </div>
           {toggleView && selectedGroup && (
-            <ViewGroupInPage data={selectedGroup} onClose={() => setToggleView(false)} />
+            <ViewGroupInPage group={group} onClose={() => setToggleView(false)} />
           )}
         </div>
       </div>

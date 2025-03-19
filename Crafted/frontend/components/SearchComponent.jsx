@@ -17,23 +17,23 @@ function SearchPage() {
   const [searchResults, setSearchResults] = useState('Search By Users or Cars')
   const [isLoading, setIsLoading] = useState(false);
   const [toggleViewCar, setToggleViewCar] = useState(false);
-  // const [userGroups, setUserGroups] = useState('')
+  const [userGroups, setUserGroups] = useState('')
   
 
 
-  // useEffect(() => {
-  //   const fetchGroups = async () => {
-  //     try {
-  //       const userGroups = await groupService.getUserGroups();
-  //       setUserGroups(userGroups);
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        const userGroups = await groupService.getUserGroups();
+        setUserGroups(userGroups);
         
-  //     } catch (error) {
-  //       console.error("Failed to fetch groups:", error);
-  //     }
-  //   };
+      } catch (error) {
+        console.error("Failed to fetch groups:", error);
+      }
+    };
     
-  //   fetchGroups();
-  // }, []);
+    fetchGroups();
+  }, []);
 
   const handleSearch = async () => {
     setIsLoading(true);
@@ -82,12 +82,14 @@ function SearchPage() {
     }
   };
 
-// const handleAddUserToGroup = async () => {
-//   try {
-//     const addUser = await groupService.getUserToGroup()
-//   }
-// }
-
+const handleAddUserToGroup = async () => {
+  try {
+    const addUser = await groupService.getUserToGroup()
+    console.log(addUser)
+} catch (error) {
+  console.log("unable to add user to group:", error);
+}
+};
 console.log(results)
 
   return (
@@ -147,7 +149,7 @@ console.log(results)
                 <p className="text-gray-600">Name: {user.name}</p>
                 
                 <p className="text-gray-600">Cars: {user.vehicles?.map(car => `${car.make} - ${car.model}`).join(' ')} 
-                <button className="bg-blue-500 text-white text-sm py-1 px-3 rounded hover:bg-blue-600 transition duration-300 absolute bottom-2 right-2">
+                <button className="bg-blue-500 text-white text-sm py-1 px-3 rounded hover:bg-blue-600 transition duration-300 absolute bottom-2 right-2 on" onClick={handleAddUserToGroup(user._id)}>
       Add to Group
     </button>
                 </p>

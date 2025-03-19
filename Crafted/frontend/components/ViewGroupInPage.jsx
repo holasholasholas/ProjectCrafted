@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
+// import viewMembersInPage from "./ViewMembersInPage";
 
-const ViewGroupInPage = ({ onClose, data }) => {
+const ViewGroupInPage = ({ onClose, group }) => {
+
+    // const [toggleMemberPage, setToggleMemberPage] = useState(false)
   const [groupDetails, setGroupDetails] = useState({
     name: "",
     description: "",
@@ -8,20 +11,24 @@ const ViewGroupInPage = ({ onClose, data }) => {
     members: "",
   });
 
- 
-  useEffect(() => {
-    if (data) {
-      setGroupDetails({
-        name: data.name || "No name provided",
-        description: data.description || "No description provided",
-        owner: data.owner || "No owner specified",
-        members: data.members || "No members added",
-      });
-    }
-  }, [data]);
 
  
-  if (!data) {
+  useEffect(() => {
+    if (group) {
+      setGroupDetails({
+        name: group.name || "No name provided",
+        description: group.description || "No description provided",
+        owner: group.owner || "No owner specified",
+        members: group.members || "No members added",
+      });
+    }
+  }, [group]);
+
+  console.log(membersData);
+
+  const membersData = group.members;
+ 
+  if (!group) {
     return (
       <div className="fixed inset-0 z-[999] grid h-screen w-screen place-items-center bg-opacity-60 backdrop-blur-sm">
         <div className="relative mx-auto w-full max-w-[24rem] rounded-lg overflow-hidden shadow-sm">
@@ -33,7 +40,7 @@ const ViewGroupInPage = ({ onClose, data }) => {
             </div>
             <div className="p-6">
               <p className="text-sm text-slate-700">
-                No group data available to display.
+                No group group available to display.
               </p>
             </div>
             <div className="p-6 pt-0">
@@ -95,7 +102,16 @@ const ViewGroupInPage = ({ onClose, data }) => {
             >
               Close
             </button>
+            <button
+              onClick={() => setToggleMemberPage(true)}
+              className="w-full rounded-md bg-slate-600 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg hover:bg-slate-700 focus:bg-slate-700 focus:shadow-none active:bg-slate-800"
+              type="button"
+              >
+              View Members
+            </button>
+
           </div>
+                {toggleMemberPage && <viewMembersInPage membersData={membersData} />}
         </div>
       </div>
     </div>
