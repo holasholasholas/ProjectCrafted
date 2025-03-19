@@ -33,6 +33,33 @@ router.post("/", verifyToken, async (req, res) => {
     }
 });
 
+router.post("/:group_id", verifyToken, async (req, res) => {
+  try {
+    const { group_id } = req.params;
+    const { user_id } = req.body; 
+    
+   
+    await Group.findByIdAndUpdate(
+      group_id,
+      {
+        $addToSet: { members: { user: user_id, role: 'member' } }
+      }
+    );
+    
+    
+    await User.findByIdAndUpdate(
+      user_id,
+      
+      { $addToSet: { groups: { group: group_id } } } , 
+    );
+    
+    
+    res.status(200).json({ message: "user added to group" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Find group details and members
 router.get("/", verifyToken, async (req, res) => {
     try {
@@ -53,6 +80,8 @@ router.get("/", verifyToken, async (req, res) => {
       }
     });
 
+    
+
     router.delete("/:group_id", verifyToken, async (req, res) => {
         try {
           const { group_id } = req.params; // Correct parameter extraction
@@ -72,32 +101,7 @@ router.get("/", verifyToken, async (req, res) => {
         }
       });
 
-      router.post("/:group_id", verifyToken, async (req, res) => {
-        try {
-          const { group_id } = req.params;
-          const { user_id } = req.body; 
-          
-         
-          await Group.findByIdAndUpdate(
-            group_id,
-            {
-              $addToSet: { members: { user: user_id, role: 'member' } }
-            }
-          );
-          
-          
-          await User.findByIdAndUpdate(
-            user_id,
-            {
-              $addToSet: { groups: { group: group_id, role: 'member' } }
-            }
-          );
-          
-          res.status(200).json({ message: "user added to group" });
-        } catch (err) {
-          res.status(500).json({ error: err.message });
-        }
-      });
+      
 
 // update group not sure if I need it 
 

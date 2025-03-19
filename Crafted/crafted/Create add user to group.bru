@@ -1,0 +1,17 @@
+meta {
+  name: Create add user to group
+  type: http
+  seq: 17
+}
+
+post {
+  url: http://localhost:3000/group/67da29eb0b678bf537614a2a
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "user_id":"67d0ec19c960b17d9ea5326b" 
+  }
+}
